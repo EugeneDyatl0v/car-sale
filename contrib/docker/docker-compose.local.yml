@@ -1,0 +1,13 @@
+services:
+  angular:
+    build:
+      context: ../..
+      dockerfile: contrib/docker/angular/Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - auto-shop
+
+networks:
+  auto-shop:
+    external: true

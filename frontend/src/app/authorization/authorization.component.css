@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+header {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 1rem;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+a{
+    color: #fff;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.form-section {
+    background-image: url('../images/audi.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.form-container {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7);
+    width:450px;
+    height: 400px;
+    margin: 0 auto 0 auto;
+    text-align: center;
+    box-shadow: 0 -5px 0 white;
+}
+
+.form-container h2 {
+    margin-top: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.form-container p {
+  padding-top: 10px;
+  color: #fff;
+  margin: auto;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="email"],input[type="password"]{
+ width: 300px;
+ height:50px;
+ font-size: 18px;
+ margin-bottom: 25px;
+ border-radius: 4px;
+ padding-left: 10px;
+}
+
+.dws-input-email:hover::before{
+    color: white;
+    transition: all 0.3s;
+}
+
+ .dws-input-pass:hover::before{
+    color: white;
+    transition: all 0.3s;
+}
+
+.dws-input-email input:hover{
+ box-shadow: 0 0 6px 3px white;
+}
+.dws-input-pass input:hover{
+ box-shadow: 0 0 6px 3px white;
+}
+
+.dws-input-email {
+  position: relative; /* Необходимо для позиционирования псевдоэлемента */
+}
+
+.dws-input-pass {
+  position: relative; /* Необходимо для позиционирования псевдоэлемента */
+}
+
+.dws-input-email::before {
+  content: '';
+  position: absolute;
+  left: 20px; /* Отступ слева */
+  top: 5px; /* Отступ сверху */
+  width: 40px; /* Ширина иконки */
+  height: 40px; /* Высота иконки */
+  background-image: url('images/person.svg'); /* Путь к вашему SVG */
+  background-size: contain; /* Подгонка под размеры */
+  background-repeat: no-repeat; /* Без повторения */
+}
+
+.dws-input-pass::before {
+  content: '';
+  position: absolute;
+  left: 20px; /* Отступ слева */
+  top: 5px; /* Отступ сверху */
+  width: 40px; /* Ширина иконки */
+  height: 40px; /* Высота иконки */
+  background-image: url('images/pass.svg'); /* Путь к вашему SVG */
+  background-size: contain; /* Подгонка под размеры */
+  background-repeat: no-repeat; /* Без повторения */
+}
+
+/* CSS */
+.submit-btn {
+  align-items: center;
+  background-color: rgba(240, 240, 240, 1);
+  border: 1px solid #DFDFDF;
+  border-radius: 16px;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  justify-content: center;
+  line-height: 28px;
+  max-width: 80%;
+  padding: 14px 22px;
+  text-decoration: none;
+  transition: all .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  margin: auto;
+}
+
+.submit-btn:active,
+.submit-btn:hover {
+  outline: 0;
+}
+
+.submit-btn:hover {
+  background-color: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.19);
+}
+
+@media (min-width: 768px) {
+  .submit-btn {
+    font-size: 20px;
+    min-width: 200px;
+    padding: 14px 16px;
+  }
+}
+
+.custom-alert {
+  position: absolute; /* Позиционирование относительно формы */
+  top: calc(100% + 20px); /* Располагаем уведомление ниже формы */
+  transform: translateX(-50%); /* Центрируем по горизонтали относительно левого края */
+  background-color: #f44336; /* Красный фон для ошибки */
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: fade-in-out 3s forwards;
+  display: flex; /* Используем Flexbox */
+  justify-content: center; /* Центрируем текст по горизонтали */
+  align-items: center; /* Центрируем текст по вертикали */
+  min-height: 50px; /* Задаем минимальную высоту для лучшей видимости */
+  width: 100%;
+}
+
+
+@keyframes fade-in-out {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}

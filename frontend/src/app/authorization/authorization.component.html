@@ -1,0 +1,22 @@
+<main>
+    <section class="form-section">
+        <div class="form-container">
+            <h2>Авторизация</h2>
+            <form>
+                <div class="dws-input-email">
+                    <input type="email" placeholder="Email" required [(ngModel)]="email" name="email">
+                </div>
+                <div class="dws-input-pass">
+                    <input type="password" placeholder="Пароль" required [(ngModel)]="password" name="password">
+                </div>
+                <button class="submit-btn" type="button" (click)="onSubmit($event)">Войти</button>
+            </form>
+            <p>Нет аккаунта? <a href="/registration">Зарегистрироваться</a></p>
+            <p><a href="/password-recovery">Забыли пароль?</a></p>
+            <!-- Кастомное уведомление -->
+            <div class="custom-alert" *ngIf="showAlert">
+                <p>{{ alertMessage }}</p>
+            </div>
+        </div>
+    </section>
+</main>

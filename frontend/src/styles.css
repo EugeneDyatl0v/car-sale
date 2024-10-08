@@ -1,0 +1,60 @@
+/* Убедитесь, что html и body занимают 100% высоты */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif; /* Это на случай, если у вас нет общего шрифта */
+}
+
+/* Убедитесь, что app-root и main занимают всю высоту */
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+header, footer {
+  background-color: #f8f9fa; /* Цвет фона */
+  padding: 20px;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #000;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #e0e0e0;
+  padding: 50px 0;
+}
+
+.hero-content {
+  text-align: center;
+}
+
+footer {
+  background-color: #343a40;
+  color: white;
+  padding: 10px 0;
+}

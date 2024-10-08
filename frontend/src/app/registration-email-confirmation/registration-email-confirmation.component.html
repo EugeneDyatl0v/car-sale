@@ -1,0 +1,15 @@
+<section class="form-section">
+    <div class="form-container">
+        <h2>Подтверждение почты</h2>
+        <p>Введите код, который был отправлен на вашу почту:</p>
+        <form (submit)="onSubmit($event)">
+            <div class="dws-input-code">
+                <input type="text" placeholder="Код подтверждения" required [(ngModel)]="verificationCode" name="code">
+            </div>
+            <button type="submit" class="submit-btn">Подтвердить</button>
+        </form>
+        <div *ngIf="showAlert" class="custom-alert">
+            <p>{{ alertMessage }}</p>
+        </div>
+    </div>
+</section>
