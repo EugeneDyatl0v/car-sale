@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule, HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-authorization',
@@ -19,7 +20,7 @@ export class AuthorizationComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
   }
 
   showAlert: boolean = false;  // Переменная для управления видимостью уведомления
@@ -54,8 +55,7 @@ export class AuthorizationComponent {
         next: (response: any) => {
           const authToken = response.auth_token; // получаем auth токен из ответа
           const refreshToken = response.refresh_token; // получаем refresh токен (при необходимости)
-          localStorage.setItem('authToken', authToken); // сохраняем auth токен в localStorage
-          localStorage.setItem('refreshToken', refreshToken); // сохраняем refresh токен в localStorage (если нужно)
+          this.authService.login(authToken);
 
           // Перенаправление на другую страницу после успешного логина
           this.router.navigate(['/']);

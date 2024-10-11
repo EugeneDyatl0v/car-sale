@@ -11,6 +11,18 @@
             <div class="dws-input-repeat-pass">
                 <input type="password" placeholder="Повторите пароль" required [(ngModel)]="repeatPassword" name="repeatPassword">
             </div>
+            <div class="dws-input-repeat-pass">
+                <input type="text" placeholder="Имя" required [(ngModel)]="userName" name="userName">
+            </div>
+            <div class="dws-input-repeat-pass">
+                <input type="text" placeholder="Фамилия" required [(ngModel)]="userLastName" name="userLastName">
+            </div>
+            <div class="dws-input-repeat-pass">
+                <input type="tel" placeholder="Номер телефона" required [(ngModel)]="mobilePhone" name="mobilePhone">
+            </div>
+            <div class="dws-input-repeat-pass">
+                <input type="text" placeholder="Адрес" required [(ngModel)]="address" name="address">
+            </div>
             <button class="submit-btn" type="submit" (click)="onSubmit($event)">Зарегистрироваться</button>
         </form>
         <!-- Кастомное уведомление -->

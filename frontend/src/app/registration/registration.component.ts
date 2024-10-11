@@ -15,6 +15,10 @@ export class RegistrationComponent {
   email: string = '';
   password: string = '';
   repeatPassword: string = '';
+  userName: string = '';
+  userLastName: string = '';
+  mobilePhone: string = '';
+  address: string = '';
 
   constructor(private http: HttpClient,  private router: Router) {
   }
@@ -46,6 +50,14 @@ export class RegistrationComponent {
       return;
     }
 
+    const user_create_data = {
+      user_name: this.userName,
+      user_last_name: this.userLastName,
+      email: this.email,
+      phone_number: this.mobilePhone,
+      address: this.address
+    }
+
     const data = {
       email: this.email,
       password: this.password,
@@ -63,6 +75,18 @@ export class RegistrationComponent {
         next: (v) => {
           console.log(v);
           this.showAlert = false;
+
+          this.http.post('http://localhost:8008/users/', user_create_data, {headers: headers}).subscribe(
+            {
+              next: (v) => {
+                console.log(v);
+              },
+              error: (e) => {
+                console.log(e);
+              },
+            }
+          )
+
           this.router.navigate(['/registration/email-verification'], { queryParams: { email: this.email } });
         },
         error: (e) => {
