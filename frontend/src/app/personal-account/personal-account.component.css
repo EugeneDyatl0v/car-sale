@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    color: #fff;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.page{
+    background: rgb(0,0,0,7);
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.acc-header{
+    font-size: 32px;
+    text-align: center;
+}
+
+.table-header{
+    align-self: flex-start; /* Выравнивает мини-заголовок по левому краю */
+    padding: 50px 0 50px 20%; /* Отступы сверху и снизу */
+}
+
+table{
+  width: 60%;
+  align-self: center;
+  border-collapse: collapse;
+}
+
+.column1, .column2{
+  font-size: 23px;
+}
+
+.column2{
+  text-align: center;
+}
+
+td {
+  padding: 10px; /* Внутренний отступ */
+}
+
+tr {
+  border-bottom: 3px solid #858E99; /* Нижняя граница для каждой строки */
+}
+
+tr:last-child{
+  border-bottom: none;
+}
+
+.ad-header{
+  padding: 70px 0 50px 0;
+  align-self: center;
+}
+
+.ads{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 5%;
+}
+
+.ad{
+  height: 250px;
+  width: 30%;
+}
+
+.ad1{
+  width: 100%;
+  height: 150px;
+  background-image: url('images/audi.jpg'); /* Путь к вашему SVG */
+  background-size: contain; /* Подгонка под размеры */
+  background-repeat: no-repeat; /* Без повторения */
+}
+
+h4, p{
+  padding: 5px;
+  text-align: center;
+}
+
+p{
+  text-align: left;
+}
+
+.button-container {
+    display: flex; /* Включаем Flexbox */
+    justify-content: space-evenly; /* Промежуток между кнопками */
+}
+
+.button {
+    padding: 10px 20px 10px 10px; /* Внутренние отступы */
+    background-color: #858E99; /* Цвет фона */
+    color: white; /* Цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    border-radius: 20px; /* Закругление углов */
+    transition: background-color 0.3s; /* Плавный переход цвета */
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #343a40; /* Цвет фона при наведении */
+}
