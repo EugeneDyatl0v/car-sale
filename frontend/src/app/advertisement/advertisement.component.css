@@ -1,0 +1,173 @@
+.page{
+  position: relative;
+  background: rgb(0,0,0,7);
+  height: auto;
+  min-height: 87.6vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 2rem;
+  color: white;
+}
+
+h1, h2{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+}
+
+.photos{
+  display: flex;
+  flex-direction: column;
+  width: 850px;
+  height: auto;
+  border: 3px solid white;
+  margin-bottom: 10%;
+  justify-content: center;
+}
+
+.main-photo, .small-photos{
+  width: 750px;
+  height: 385px;
+  position: relative;
+  padding: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.small-photos{
+  height: auto;
+  flex-wrap: wrap;
+}
+
+.small-photo{
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.info{
+  display: flex;
+  flex-wrap: wrap;
+  /*width: 1216px;*/
+  width: 95vw;
+}
+
+.char{
+  width: 50%;
+  height: auto;
+  margin-left: 20px;
+  text-align: center;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+table{
+  justify-content: center;
+  display: flex;
+  position: relative;
+  width: auto;
+  border-collapse: collapse;
+  margin-bottom: 5vh;
+}
+
+.column1, .column2{
+  font-size: x-large;
+  text-align: left;
+}
+
+.column2{
+  text-align: left;
+  border-left: 3px solid #858E99;
+}
+
+tr {
+  border-bottom: 5px solid #858E99; /* Нижняя граница для каждой строки */
+}
+
+tr:last-child{
+  border-bottom: none;
+}
+
+td{
+  padding: 10px;
+}
+
+p{
+  text-align: left;
+  margin: 0 5vw;
+  padding: 20px;
+}
+
+.seller{
+  border: 3px solid white;
+  margin-top: 5vh;
+  width: 95vw;
+}
+
+.seller-header{
+  display: flex;
+  position: relative;
+  justify-content: left;
+  margin-left: 5vw;
+  margin-bottom: 0;
+}
+
+h4{
+  padding: 1.5vh 1.5vw;
+  margin: 0;
+}
+
+.buttons {
+  padding: 0 1.5vw;
+}
+
+.buttons button{
+  border: 3px solid white;
+  border-radius: 10px;
+  width: 2vw;
+  height: 3vh;
+  margin-right: 1vw;
+}
+
+.phone{
+    background-image: url("../../assets/telephone-fill.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease;
+}
+
+.phone:hover{
+    background-image: url("../../assets/telephone-fill.svg");
+      background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    filter: brightness(0.7);
+
+}
+
+.email{
+      background-image: url("../../assets/envelope-at-fill.svg");
+      background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease;
+}
+
+.email:hover{
+    background-image: url("../../assets/envelope-at-fill.svg");
+      background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    filter: brightness(0.7);
+
+}
+
+
+.buttons h4{
+  padding: 2vh 0 0 0;
+}

@@ -10,13 +10,27 @@ body {
     color: #333;
 }
 
+router-outlet{
+  position: relative;
+  margin-top: 7vh;
+}
+
 header {
     background-color: #1a1a1a;
     color: #fff;
-    padding: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    position: fixed;
+  left: 0;
+  top:0;
+  z-index: 1000;
+  width: 100vw;
+  height: 7vh;
+  justify-content: center;
 }
 
 nav ul {
+  width: 100vw;
     list-style-type: none;
     display: flex;
     justify-content: space-around;
@@ -32,7 +46,7 @@ nav ul li a {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 90vh;
+    height: 180vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,7 +88,7 @@ footer {
     color: #fff;
     text-align: center;
     padding: 1rem;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
 }

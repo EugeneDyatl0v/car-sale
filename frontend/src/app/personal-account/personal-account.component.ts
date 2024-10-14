@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
+import {FormsModule} from "@angular/forms";
 
 interface ApiResponse {
   success: boolean;
@@ -23,26 +24,41 @@ interface ApiResponse {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    HttpClientModule
+    HttpClientModule,
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    FormsModule
   ],
   templateUrl: './personal-account.component.html',
   styleUrl: './personal-account.component.css'
 })
 
 export class PersonalAccountComponent implements OnInit{
-  imagePath: string = '../images/audi.jpg';
-  userName: string = '';
-  userLastName: string = '';
-  email: string = '';
-  phoneNumber: string = '';
-  address: string = ''
-
+  userName: string = 'Nikita';
+  userLastName: string = 'Psshin';
+  email: string = 'neverdoit@mail.com';
+  phoneNumber: string = '+375206776093';
+  address: string = 'Минск'
+  edit:boolean = false;
   constructor(private http: HttpClient,  private router: Router, private authService: AuthService) {
   }
 
+  login(){
+    this.authService.login('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c')
+  }
 
   ngOnInit() {
     this.fetchUserData();
+  }
+
+  save(){
+    this.edit = false;
+    console.log(this.phoneNumber);
+  }
+
+  on_edit(){
+    this.edit = true;
   }
 
   on_click() {

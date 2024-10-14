@@ -1,52 +1,45 @@
 <section class="page">
-  <button class="submit-btn" (click)="on_click()">Выйти</button>
+
+  <button class="exit-button" (click)="on_click()"></button>
   <h1 class="acc-header">Личный кабинет</h1>
+  <ng-container [ngSwitch]=edit>
+    <div class="edit-header">
   <h2 class="table-header">Персональные данные</h2>
+  <button *ngSwitchCase=false class="edit-button" (click)="on_edit()"></button>
+      </div>
       <table>
         <tbody>
             <tr>
                 <td class="column1">Имя</td>
-                <td class="column2">{{ userName }}</td>
+                <td class="column2">
+                  <p *ngSwitchCase=false>{{ userName }}</p>
+                  <input type="text" maxlength="50" [(ngModel)]=userName *ngSwitchCase=true value="{{userName}}" autocomplete="on">
+                </td>
             </tr>
             <tr>
                 <td class="column1">Фамилия</td>
-                <td class="column2">{{ userLastName }}</td>
+                <td class="column2">
+                  <p *ngSwitchCase=false>{{ userLastName }}</p>
+                  <input type="text" maxlength="50" [(ngModel)]=userLastName *ngSwitchCase=true value="{{userLastName}}" autocomplete="on">
+                </td>
             </tr>
             <tr>
                 <td class="column1">Телефон</td>
-                <td class="column2">{{ phoneNumber }}</td>
+                <td class="column2">
+                  <p *ngSwitchCase=false>{{ phoneNumber }}</p>
+                  <input type="tel" pattern="^\+?[0-9]{1,3}?[-.\s]?(\(?[0-9]{1,4}?\)?[-.\s]?)([0-9]{1,4}[-.\s]?){1,3}[0-9]{1,4}$" [(ngModel)]=phoneNumber *ngSwitchCase=true value="{{phoneNumber}}" autocomplete="on">
+                </td>
             </tr>
             <tr>
                 <td class="column1">Email</td>
-                <td class="column2">{{ email }}</td>
-            </tr>
-            <tr>
-                <td class="column1">Город</td>
-                <td class="column2">{{ address }}</td>
+                <td class="column2">
+                  <p *ngSwitchCase=false>{{ email }}</p>
+                  <input type="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" [(ngModel)]=email *ngSwitchCase=true value="{{email}}" autocomplete="on">
+                </td>
             </tr>
         </tbody>
-    </table>
-  <h2 class="ad-header">Мои объявления</h2>
-  <div class="ads">
-    <div class="ad">
-    <div class="ad1"> </div>
-                <h4 class="name">Машина</h4>
-                <p class="descr">Описание </p>
-    </div>
-        <div class="ad">
-    <div class="ad1"> </div>
-                <h4 class="name">Машина</h4>
-                <p class="descr">Описание </p>
-    </div>
-    <div class="ad">
-    <div class="ad1"> </div>
-                <h4 class="name">Машина</h4>
-                <p class="descr">Описание </p>
-    </div>
-    <div class="ad">
-    <div class="ad1"> </div>
-                <h4 class="name">Машина</h4>
-                <p class="descr">Описание </p>
-    </div>
-  </div>
+        <button class="submit-btn" *ngSwitchCase=true (click)=save()>Сохранить</button>
+      </table>
+  </ng-container>
+
 </section>
