@@ -7,6 +7,13 @@ services:
       - "4200:4200"
     networks:
       - auto-shop
+    volumes:
+      - ../../frontend/src/assets/ad_images:/app/src/assets/ad_images
+
+volumes:
+  ad_images:
+    driver: local
+
 
 networks:
   auto-shop:

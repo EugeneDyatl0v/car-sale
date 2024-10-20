@@ -28,7 +28,7 @@ h1, h2{
 
 .main-photo, .small-photos{
   width: 750px;
-  height: 385px;
+  max-height: 750px;
   position: relative;
   padding: 50px;
   display: flex;
@@ -43,6 +43,11 @@ h1, h2{
 .small-photo{
   position: relative;
   padding-bottom: 10px;
+  width: auto;
+}
+
+.main-photo-instance{
+  height: auto;
 }
 
 .info{

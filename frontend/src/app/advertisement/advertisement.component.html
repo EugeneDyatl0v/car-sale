@@ -1,27 +1,19 @@
-<div class="page"> <h1>{{ title }}</h1>
+<div class="page"> <h1>{{ myAdData.title }}</h1>
 
   <div class="info">
   <div class="photos">
     <div class="main-photo">
-      <img ngSrc="../../assets/audi.jpg" width="720" height="385" alt="main-photo" >
+      <img [ngSrc]="'../../assets/ad_images/' + myAdData.images![0]" priority="priority" width="720" height="720" alt="main-photo" class="main-photo-instance" >
     </div>
-    <h2>{{ price }}</h2>
+    <h2>{{ myAdData.price }} {{ myAdData.currency }}</h2>
     <div class="small-photos">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-        <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-  <img ngSrc="../../assets/audi.jpg" width="240" height="135" alt="photo" class="small-photo">
-      </div>
+      <img *ngFor="let imagePath of myAdData.images"
+       [ngSrc]="'../../assets/ad_images/' + imagePath"
+       width="240"
+       height="240"
+       alt="photo"
+       class="small-photo">
+    </div>
   </div>
   <div class="char">
   <h2>Характеристики</h2>
@@ -29,84 +21,84 @@
         <tbody>
             <tr>
                 <td class="column1">Тип кузова</td>
-                <td class="column2">{{ body_type }}</td>
+                <td class="column2">{{ myAdData.body_type }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Марка</td>
-                <td class="column2">{{ brand }}</td>
+                <td class="column2">{{ myAdData.brand }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Модель</td>
-                <td class="column2">{{ model }}</td>
+                <td class="column2">{{ myAdData.model }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Цвет</td>
-                <td class="column2">{{ color }}</td>
+                <td class="column2">{{ myAdData.color }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Год выпуска</td>
-                <td class="column2">{{ year }}</td>
+                <td class="column2">{{ myAdData.year }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Пробег</td>
-                <td class="column2">{{ mileage }}</td>
+                <td class="column2">{{ myAdData.mileage }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Мощность</td>
-                <td class="column2">{{ horse_power }}</td>
+                <td class="column2">{{ myAdData.horse_power }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Объем двигателя</td>
-                <td class="column2">{{ engine_capacity }}</td>
+                <td class="column2">{{ myAdData.engine_capacity }}</td>
             </tr>
 
 
             <tr>
                 <td class="column1">КПП</td>
-                <td class="column2">{{ transmission }}</td>
+                <td class="column2">{{ myAdData.transmission }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Привод</td>
-                <td class="column2">{{ drive_type }}</td>
+                <td class="column2">{{ myAdData.drive_type }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Тип топлива</td>
-                <td class="column2">{{ fuel_type }}</td>
+                <td class="column2">{{ myAdData.fuel_type }}</td>
             </tr>
 
             <tr>
                 <td class="column1">VIN номер</td>
-                <td class="column2">{{ vin_number }}</td>
+                <td class="column2">{{ myAdData.vin_number }}</td>
             </tr>
 
             <tr>
                 <td class="column1">Город</td>
-                <td class="column2">{{ location }}</td>
+                <td class="column2">{{ myAdData.location }}</td>
             </tr>
         </tbody>
   </table>
     <h2>Описание</h2>
-  <p>{{ description }}</p>
+  <p>{{ myAdData.description }}</p>
     </div>
     </div>
   <div class="seller">
     <h2 class="seller-header">Продавец</h2>
-    <h4>{{ seller_name }}</h4>
+    <h4>{{ myAdData.seller_name }}</h4>
     <div class="buttons">
       <button class="phone" (click)=on_click_phone() ></button>
       <button class="email" (click)=on_click_email()></button>
       <h4 *ngIf=clicked>{{info}}</h4>
     </div>
-    <h4>Дата подачи объявления: {{posted_date}}</h4>
+    <h4>Дата подачи объявления: {{ myAdData.posted_at }}</h4>
 
   </div>
 </div>

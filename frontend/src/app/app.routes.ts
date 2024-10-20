@@ -22,5 +22,5 @@ export const routes: Routes = [
   { path: 'registration/email-verification', component:RegistrationEmailConfirmationComponent },
   { path: 'password-recovery/email-verification', component:PasswordRecoveryEmailVerificationComponent },
   { path: 'personal-account', component:PersonalAccountComponent },
-  { path: 'advertisement', component:AdvertisementComponent },
+  { path: 'advertisement/:id', component:AdvertisementComponent },
 ];

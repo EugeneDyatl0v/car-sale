@@ -18,7 +18,6 @@ export class RegistrationComponent {
   userName: string = '';
   userLastName: string = '';
   mobilePhone: string = '';
-  address: string = '';
 
   constructor(private http: HttpClient,  private router: Router) {
   }
@@ -55,7 +54,6 @@ export class RegistrationComponent {
       user_last_name: this.userLastName,
       email: this.email,
       phone_number: this.mobilePhone,
-      address: this.address
     }
 
     const data = {
