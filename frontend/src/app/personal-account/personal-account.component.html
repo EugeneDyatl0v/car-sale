@@ -38,8 +38,15 @@
                 </td>
             </tr>
         </tbody>
-        <button class="submit-btn" *ngSwitchCase=true (click)=save()>Сохранить</button>
       </table>
+        <button class="submit-btn" *ngSwitchCase=true (click)=save()>Сохранить</button>
+    <div *ngSwitchCase=false class="buttons">
+        <button class="ads-btn">Мои объявления</button>
+        <button class="del-btn" (click)=openModal()>Удалить аккаунт</button>
+        <app-del-acc>
+
+        </app-del-acc>
+    </div>
   </ng-container>
 
 </section>

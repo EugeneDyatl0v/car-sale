@@ -2,26 +2,28 @@ class Currency(Enum):
     USD = "USD"
     EUR = "EUR"
     RUB = "RUB"
+    BYN = "BYN"
 
 class FuelType(Enum):
-    PETROL = "PETROL"
-    DIESEL = "DIESEL"
-    ELECTRIC = "ELECTRIC"
-    HYBRID = "HYBRID"
+    PETROL = "Бензин"
+    DIESEL = "Дизель"
+    ELECTRIC = "Электричество"
+    HYBRID = "Гибрид"
+    GAS = "Газ"
 
 class Transmission(Enum):
-    MANUAL = "MANUAL"
-    AUTOMATIC = "AUTOMATIC"
-    CVT = "CVT"
+    MANUAL = "Ручная"
+    AUTOMATIC = "Автоматическая"
+    CVT = "Робот"
 
 class BodyType(Enum):
-    SEDAN = "SEDAN"
-    SUV = "SUV"
-    HATCHBACK = "HATCHBACK"
-    WAGON = "WAGON"
-    COUPE = "COUPE"
+    SEDAN = "Седан"
+    SUV = "Внедорожник"
+    HATCHBACK = "Хетчбэк"
+    WAGON = "Универсал"
+    COUPE = "Купе"
 
 class DriveType(Enum):
-    FWD = "FWD"
-    RWD = "RWD"
-    AWD = "AWD"
+    FWD = "Передний"
+    RWD = "Задний"
+    AWD = "Полный"

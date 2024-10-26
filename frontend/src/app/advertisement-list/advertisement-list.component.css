@@ -1,0 +1,32 @@
+.page{
+  position: relative;
+  background: rgb(0,0,0,7);
+  height: auto;
+  min-height: 80.7vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 2rem;
+  color: white;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 3 колонки одинаковой ширины */
+  grid-auto-rows: 45vh; /* Высота каждой строки (дивов) 100px */
+  gap: 10px; /* Отступы между дивами (если нужно) */
+  width: 100%; /* Ширина таблицы будет равна ширине родителя */
+}
+
+.add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    flex-direction: column;
+  flex-wrap: wrap;
+  border: 1px solid white; /* Добавим границу для визуализации */
+}
+
+h4{
+  margin-bottom: 5vh;
+}

@@ -12,12 +12,12 @@ interface ApiResponse {
       title: string;
       description: string;
       price: number;
-      currency: 'USD' | 'EUR' | 'RUB'; // Ограничение значений для валюты
+      currency: 'USD' | 'EUR' | 'RUB' | 'BYN'; // Ограничение значений для валюты
       brand: string;
       model: string;
       year: number;
       mileage: number;
-      fuel_type: 'PETROL' | 'DIESEL' | 'ELECTRIC' | 'HYBRID'; // Ограничение значений для типа топлива
+      fuel_type: 'PETROL' | 'DIESEL' | 'ELECTRIC' | 'HYBRID' | 'GAS'; // Ограничение значений для типа топлива
       transmission: 'MANUAL' | 'AUTOMATIC' | 'CVT'; // Ограничение значений для трансмиссии
       body_type: 'SEDAN' | 'SUV' | 'HATCHBACK' | 'WAGON' | 'COUPE'; // Ограничение значений для типа кузова
       engine_capacity: number;
@@ -53,6 +53,9 @@ export class AdvertisementComponent implements OnInit{
   myAdData: Partial<ApiResponse['data']['ad']> = {};
   info: string | undefined = '';
   clicked: boolean = false;
+  selectedImage: string = '';
+  heightList: number[] = [];
+  heightSelectedImage: number = 0;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
   }
@@ -62,6 +65,23 @@ export class AdvertisementComponent implements OnInit{
       this.adId = params.get('id');
       if (this.adId){
         this.fetchAdData(this.adId);
+        this.myAdData= {
+    title: 'Продается автомобиль',
+    description: 'Отличное состояние, малый пробег.',
+    price: 12000,
+    currency: 'USD',
+    brand: 'Toyota',
+    model: 'Camry',
+    year: 2018,
+    mileage: 45000,
+    fuel_type: 'PETROL',
+    images: ['audi.jpg', '1.jpg', 'de8b9aae-3906-4885-b7d0-d7cf2f273d6b.jpg', 'qcE7GiM03MEVkbKBpfWUoZYvKao-960.jpg', 'audi.jpg', '1.jpg', 'audi.jpg', '1.jpg', 'de8b9aae-3906-4885-b7d0-d7cf2f273d6b.jpg',]
+  };
+        this.selectedImage = this.myAdData.images![0];
+        for (const image of this.myAdData.images!){
+          this.getImageSize('../../assets/ad_images/' + image)
+        }
+        this.heightSelectedImage = this.heightList[0];
       } else {
         this.router.navigate(['/']);
       }
@@ -90,6 +110,31 @@ export class AdvertisementComponent implements OnInit{
         console.error('Ошибка HTTP-запроса:', error);
       }
     );
+  }
+
+  getImageSize(imageUrl: string) {
+    const img = new Image(); // Создаем объект Image
+    img.src = imageUrl; // Указываем путь к изображению
+    let imageWidth: number | undefined;
+    let imageHeight: number | undefined;
+
+    // Ждем загрузки изображения
+    img.onload = () => {
+      imageWidth = img.naturalWidth; // Получаем ширину
+      imageHeight = img.naturalHeight; // Получаем высоту
+      console.log((imageHeight/imageWidth)*240)
+      this.heightList.push((imageHeight/imageWidth)*240)
+    };
+
+    // Обработка ошибки загрузки
+    img.onerror = (error) => {
+      console.error('Ошибка загрузки изображения', error);
+    };
+  }
+
+  changeMainImage(newImage: string, index: number) {
+    this.selectedImage = newImage;
+    this.heightSelectedImage = 3*this.heightList[index];
   }
 
   on_click_phone() {

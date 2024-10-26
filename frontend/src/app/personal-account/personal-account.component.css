@@ -176,3 +176,51 @@ input:hover {
       border-color: #666666; /* Изменение цвета границы при наведении */
 }
 
+.submit-btn{
+  background-color: white;
+  color: black;
+  font-size: larger;
+  width: 15vw;
+  height: 5vh;
+  margin-top: 5vh;
+  align-self: center;
+  border: 3px solid black;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover{
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.buttons{
+  align-self: center;
+  width: 45vw;
+  height: 10vh;
+  margin-top: 7vh;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ads-btn, .del-btn{
+  background-color: white;
+  color: black;
+  font-size: larger;
+  width: 15vw;
+  height: 10vh;
+  border: 3px solid black;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.ads-btn:hover, .del-btn:hover{
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.del-btn:hover{
+  text-decoration: underline;
+  text-decoration-color: red;
+  color: red;
+}

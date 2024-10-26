@@ -38,7 +38,26 @@ h1, h2{
 .small-photos{
   height: auto;
   flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid red;
+  max-height: none;
 }
+
+.image-container {
+  height: 240px; /* Фиксированная высота контейнера */
+  overflow: hidden; /* Скрываем часть изображения, выходящую за пределы */
+  display: flex; /* Используем flexbox для выравнивания */
+  justify-content: center; /* Центрируем изображение по горизонтали */
+  align-items: center; /* Центрируем изображение по вертикали */
+}
+
+.image-container img {
+  width: 240px;      /* Фиксированная ширина изображения */
+  height: auto;      /* Автоматическая высота изображения */
+  object-fit: cover; /* Обрезаем изображение, чтобы оно соответствовало контейнеру */
+  display: block;    /* Чтобы исключить дополнительные отступы */
+}
+
 
 .small-photo{
   position: relative;
@@ -47,6 +66,7 @@ h1, h2{
 }
 
 .main-photo-instance{
+  width: 720px;
   height: auto;
 }
 

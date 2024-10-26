@@ -3,17 +3,21 @@
   <div class="info">
   <div class="photos">
     <div class="main-photo">
-      <img [ngSrc]="'../../assets/ad_images/' + myAdData.images![0]" priority="priority" width="720" height="720" alt="main-photo" class="main-photo-instance" >
+      <img [src]="'../../assets/ad_images/' + selectedImage" priority="priority" width="720"
+       height="{{heightSelectedImage*3}}"  alt="main-photo" class="main-photo-instance" >
     </div>
     <h2>{{ myAdData.price }} {{ myAdData.currency }}</h2>
     <div class="small-photos">
-      <img *ngFor="let imagePath of myAdData.images"
-       [ngSrc]="'../../assets/ad_images/' + imagePath"
+      <div *ngFor="let imagePath of myAdData.images; let i=index" class="image-container">
+      <img
+       [src]="'../../assets/ad_images/' + imagePath"
        width="240"
-       height="240"
+       height="{{heightList[i]}}"
        alt="photo"
-       class="small-photo">
+
+      (click)="changeMainImage('../../assets/ad_images/' + imagePath, i)">
     </div>
+      </div>
   </div>
   <div class="char">
   <h2>Характеристики</h2>

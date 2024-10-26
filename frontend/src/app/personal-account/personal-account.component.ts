@@ -4,6 +4,8 @@ import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {FormsModule} from "@angular/forms";
+import { DelAccService } from '../services/del-acc.service';
+import {DelAccComponent} from "../del-acc/del-acc.component";
 
 interface ApiResponse {
   success: boolean;
@@ -28,7 +30,8 @@ interface ApiResponse {
     NgIf,
     NgSwitch,
     NgSwitchCase,
-    FormsModule
+    FormsModule,
+    DelAccComponent
   ],
   templateUrl: './personal-account.component.html',
   styleUrl: './personal-account.component.css'
@@ -41,7 +44,10 @@ export class PersonalAccountComponent implements OnInit{
   phoneNumber: string = '+375206776093';
   address: string = 'Минск'
   edit:boolean = false;
-  constructor(private http: HttpClient,  private router: Router, private authService: AuthService) {
+  constructor(private http: HttpClient,  private router: Router, private authService: AuthService, private delAccService: DelAccService) {}
+
+  openModal() {
+    this.delAccService.open('Это важное уведомление!');
   }
 
   login(){

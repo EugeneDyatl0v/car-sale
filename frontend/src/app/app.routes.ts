@@ -13,6 +13,7 @@ import {
 } from "./password-recovery-email-verification/password-recovery-email-verification.component";
 import {PersonalAccountComponent} from "./personal-account/personal-account.component";
 import {AdvertisementComponent} from "./advertisement/advertisement.component";
+import {AdvertisementListComponent} from "./advertisement-list/advertisement-list.component";
 
 export const routes: Routes = [
   { path: '', component: MainComponent },
@@ -23,4 +24,5 @@ export const routes: Routes = [
   { path: 'password-recovery/email-verification', component:PasswordRecoveryEmailVerificationComponent },
   { path: 'personal-account', component:PersonalAccountComponent },
   { path: 'advertisement/:id', component:AdvertisementComponent },
+  { path: 'advertisement-list', component:AdvertisementListComponent}
 ];
