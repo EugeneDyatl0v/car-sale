@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
-import {combineLatestAll} from "rxjs";
 
 interface ApiResponse {
   success: boolean;
@@ -36,6 +35,48 @@ interface ApiResponse {
 }
 
 
+interface ImageOutSchema {
+  content: string
+  extension: string
+}
+
+
+interface imageAPIResponse {
+  success: boolean;
+  message: string;
+  data: ImageOutSchema[];
+}
+
+
+enum FuelType {
+    PETROL = "Бензин",
+    DIESEL = "Дизель",
+    ELECTRIC = "Электричество",
+    HYBRID = "Гибрид",
+    GAS = "Газ"
+}
+
+enum Transmission {
+    MANUAL = "Ручная",
+    AUTOMATIC = "Автоматическая",
+    CVT = "Робот"
+}
+
+enum BodyType {
+    SEDAN = "Седан",
+    SUV = "Внедорожник",
+    HATCHBACK = "Хетчбэк",
+    WAGON = "Универсал",
+    COUPE = "Купе"
+}
+
+enum DriveType {
+    FWD = "Передний",
+    RWD = "Задний",
+    AWD = "Полный"
+}
+
+
 @Component({
   selector: 'app-advertisement',
   standalone: true,
@@ -56,6 +97,13 @@ export class AdvertisementComponent implements OnInit{
   selectedImage: string = '';
   heightList: number[] = [];
   heightSelectedImage: number = 0;
+  raw_images: ImageOutSchema[] = [];
+  images: string[] = [];
+  body_type: string = '';
+  fuel_type: string = '';
+  drive_type: string = '';
+  transmission: string = '';
+
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
   }
@@ -63,27 +111,8 @@ export class AdvertisementComponent implements OnInit{
   ngOnInit(){
     this.route.paramMap.subscribe(params => {
       this.adId = params.get('id');
-      if (this.adId){
+      if (this.adId) {
         this.fetchAdData(this.adId);
-        this.myAdData= {
-    title: 'Продается автомобиль',
-    description: 'Отличное состояние, малый пробег.',
-    price: 12000,
-    currency: 'USD',
-    brand: 'Toyota',
-    model: 'Camry',
-    year: 2018,
-    mileage: 45000,
-    fuel_type: 'PETROL',
-    images: ['audi.jpg', '1.jpg', 'de8b9aae-3906-4885-b7d0-d7cf2f273d6b.jpg', 'qcE7GiM03MEVkbKBpfWUoZYvKao-960.jpg', 'audi.jpg', '1.jpg', 'audi.jpg', '1.jpg', 'de8b9aae-3906-4885-b7d0-d7cf2f273d6b.jpg',]
-  };
-        this.selectedImage = this.myAdData.images![0];
-        for (const image of this.myAdData.images!){
-          this.getImageSize('../../assets/ad_images/' + image)
-        }
-        this.heightSelectedImage = this.heightList[0];
-      } else {
-        this.router.navigate(['/']);
       }
     });
   }
@@ -100,6 +129,15 @@ export class AdvertisementComponent implements OnInit{
       (response) => {
         if (response.success) {
           this.myAdData = response.data.ad;
+          const setEnumValue = (enumType: any, value: any) => {
+            return value !== undefined && enumType[value] !== undefined ? enumType[value] : null;
+          };
+
+          // Устанавливаем значения для всех полей через вспомогательную функцию
+          this.drive_type = setEnumValue(DriveType, this.myAdData.drive_type);
+          this.body_type = setEnumValue(BodyType, this.myAdData.body_type);
+          this.fuel_type = setEnumValue(FuelType, this.myAdData.fuel_type);
+          this.transmission = setEnumValue(Transmission, this.myAdData.transmission);
           console.log(response.data.ad)
           console.log(this.myAdData)
         } else {
@@ -110,6 +148,40 @@ export class AdvertisementComponent implements OnInit{
         console.error('Ошибка HTTP-запроса:', error);
       }
     );
+
+    this.http.get<imageAPIResponse>(`http://localhost:8008/image/${id}/`, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          this.raw_images = response.data;
+          this.loadImages();
+        } else {
+          console.error('Ошибка при получении изображений');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
+
+  }
+
+  loadImages() {
+    try {
+      // Сначала получаем список всех изображений
+      // Для каждого изображения делаем запрос, чтобы получить его содержимое
+      for (const imageInfo of this.raw_images) {
+
+        // Создаем URL из base64
+        const imageUrl = imageInfo.extension + ',' + imageInfo.content;
+        this.images.push(imageUrl);
+
+        // Вычисляем высоту изображения
+        this.getImageSize(imageUrl);
+      }
+      this.selectedImage = this.images![0];
+    } catch (error) {
+      console.error('Error loading images:', error);
+    }
   }
 
   getImageSize(imageUrl: string) {
@@ -147,4 +219,9 @@ export class AdvertisementComponent implements OnInit{
     this.info = this.myAdData.seller_email;
     this.clicked = true;
   }
+
+  protected readonly BodyType = BodyType;
+  protected readonly Transmission = Transmission;
+  protected readonly DriveType = DriveType;
+  protected readonly FuelType = FuelType;
 }
