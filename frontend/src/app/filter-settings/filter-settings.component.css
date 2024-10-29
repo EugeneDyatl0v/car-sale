@@ -1,0 +1,148 @@
+.modal{
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 81vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  margin-top: 19vh;
+}
+
+.modal-content {
+  width: 97vw;
+  height: auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  color: black;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.exit-button{
+  right: 1vw;
+  border: 1px solid white;
+  border-radius: 25px;
+  width: 2.5vw;
+  height: 5vh;
+  color: black;
+  font-size: xx-large;
+  transition: all 0.3s ease;
+}
+
+.exit-button:hover{
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.submit-btn{
+  background-color: black;
+  color: white;
+  font-size: larger;
+  width: 15vw;
+  height: 5vh;
+  margin: 5vh 0 2vh 0;
+  align-self: center;
+  border: 3px solid white;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover{
+  cursor: pointer;
+  filter: invert(75%);
+}
+
+.radio-container {
+
+  width: 100%;
+  height: auto;
+  display: flex;
+    flex-wrap: wrap;
+  margin-bottom: 2vh;
+}
+
+.radio-label {
+  display: flex;
+  cursor: pointer;
+  margin: 2vh 1vw;
+  font-size: large;
+  height: 5vh;
+  width: 7vw;
+}
+
+.radio-input {
+  display: none; /* Скрываем стандартный радио-элемент */
+}
+
+.custom-radio {
+  width: 7vw;
+  height: 3vh;
+  border: 2px solid #9913cd; /* Цвет обводки */
+  border-radius: 50%;
+  position: relative;
+  margin-right: 10px;
+  transition: background-color 0.2s;
+  text-align: center;
+}
+
+.radio-input:checked + .custom-radio {
+  background-color: #007BFF; /* Цвет фона при выборе */
+}
+
+.custom-radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white; /* Цвет внутреннего круга */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0); /* Скрываем внутренний круг */
+  transition: transform 0.2s;
+}
+
+.radio-input:checked + .custom-radio::after {
+  transform: translate(-50%, -50%) scale(0); /* Показываем внутренний круг при выборе */
+}
+
+.sliders{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.slider-container {
+  width: 10vw;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.slider {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.price-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -moz-appearance: textfield; /* Для Firefox */
+}
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Для Chrome, Safari и Opera */
+  margin: 0;
+}

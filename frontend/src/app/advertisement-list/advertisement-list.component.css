@@ -4,16 +4,77 @@
   height: auto;
   min-height: 80.7vh;
   display: flex;
+  align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   padding: 2rem;
   color: white;
 }
 
+.search-container {
+  justify-self: center;
+  position: relative;
+  width: 50vw;
+  height: 7vh;
+  margin-bottom: 5vh;
+}
+
+.search-input {
+  font-size: larger;
+  height: 3vh;
+  width: 43vw;
+  padding: 2vh 6vw 2vh 1vw;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  flex: 1;
+}
+
+.button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid white;
+  border-radius: 25px;
+  width: 2vw;
+  height: 4vh;
+  background-size: 50%, auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+}
+
+.button-search{
+  right: 1vw;
+  background-image: url("../../assets/search.svg");
+}
+
+.button-search:hover{
+  background-image: url("../../assets/search.svg");
+  background-size: 50%, auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.button-filter {
+  right: 3vw;
+  background-image: url("../../assets/sliders.svg");
+}
+
+.button-filter:hover{
+  background-image: url("../../assets/sliders.svg");
+  background-size: 50%, auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 3 колонки одинаковой ширины */
-  grid-auto-rows: 45vh; /* Высота каждой строки (дивов) 100px */
+  grid-template-columns: repeat(3, 1fr); /* 3 колонки одинаковой ширины */
+  grid-auto-rows: 50vh; /* Высота каждой строки (дивов) 100px */
   gap: 10px; /* Отступы между дивами (если нужно) */
   width: 100%; /* Ширина таблицы будет равна ширине родителя */
 }
@@ -23,10 +84,28 @@
   justify-content: center;
   align-items: center;
     flex-direction: column;
-  flex-wrap: wrap;
   border: 1px solid white; /* Добавим границу для визуализации */
 }
 
-h4{
-  margin-bottom: 5vh;
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.pagination-button.active {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

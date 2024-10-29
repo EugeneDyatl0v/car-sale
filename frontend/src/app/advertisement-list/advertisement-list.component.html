@@ -1,11 +1,19 @@
 <div class="page">
+  <div class="search-container">
+        <input [(ngModel)]="searchQuery" type="text" class="search-input" placeholder="Введите запрос...">
+        <button class="button button-filter" (click)="openModal()"></button>
+        <button class="button button-search" (click)="onSearch()"></button>
+    </div>
+  <app-filter-settings>
+
+  </app-filter-settings>
   <div class="grid-container" >
   <div class="add">
     <h4>Audi Q7</h4>
     <img src="../../assets/audi.jpg" alt="main-photo" width="240" height="240">
     <h5>10000 USD</h5>
     <h5>2024</h5>
-    <button>Подтвердить</button>
+    <button>Подробнее</button>
   </div>
     <div class="add">
 
@@ -44,4 +52,16 @@
 
   </div>
   </div>
+ <!-- <div class="pagination">
+  <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">« Пред</button>
+
+  <span *ngFor="let page of [].constructor(totalPages); let i = index">
+    <button (click)="setPage(i + 1)" [class.active]="currentPage === i + 1">{{ i + 1 }}</button>
+  </span>
+
+
+  <button (click)="setPage(currentPage + 1)" [disabled]="currentPage === totalPages">След »</button>
+</div>
+  -->
+
 </div>
