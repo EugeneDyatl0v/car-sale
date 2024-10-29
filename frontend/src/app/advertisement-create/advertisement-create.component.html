@@ -1,0 +1,155 @@
+<div class="create-page">
+  <h1>Создать объявление</h1>
+
+  <form [formGroup]="adForm" (ngSubmit)="onSubmit()" class="ad-form">
+    <div class="main-info">
+      <h2>Основная информация</h2>
+
+      <div class="form-group">
+        <label for="title">Заголовок объявления</label>
+        <input type="text" id="title" formControlName="title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Цена</label>
+        <div class="price-group">
+          <input type="number" id="price" formControlName="price" required>
+          <select id="currency" formControlName="currency" required>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="RUB">RUB</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Фотографии</label>
+        <div class="photo-upload">
+          <input type="file" multiple accept="image/*" (change)="onFileSelect($event)" required>
+<!--          <div class="preview-photos">-->
+<!--            <img *ngFor="let photo of selectedPhotos" [src]="'../../assets/ad_images/' + photo" class="preview-photo">-->
+<!--          </div>-->
+        </div>
+      </div>
+    </div>
+
+    <div class="characteristics">
+      <h2>Характеристики</h2>
+
+      <div class="form-group">
+        <label for="body_type">Тип кузова</label>
+        <select id="body_type" formControlName="body_type" required>
+          <option value="Седан">Седан</option>
+          <option value="Хeтчбэк">Хeтчбэк</option>
+          <option value="Универсал">Универсал</option>
+          <option value="Внедорожник">Внедорожник</option>
+          <option value="Купе">Купе</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="brand">Марка</label>
+        <select id="brand" required formControlName="brand" (change)="onBrandChange()">
+          <option *ngFor="let brand of brands" [value]="brand">{{brand}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="model">Модель</label>
+        <select id="model" required formControlName="model" [disabled]="!this.adForm.get('brand')">
+          <option *ngFor="let model of models" [value]="model">{{model}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="color">Цвет</label>
+        <input type="text" id="color" formControlName="color" required>
+      </div>
+
+      <div class="form-group">
+        <label for="year">Год выпуска</label>
+        <input type="number" id="year" formControlName="year" required>
+      </div>
+
+      <div class="form-group">
+        <label for="mileage">Пробег</label>
+        <input type="number" id="mileage" formControlName="mileage" required>
+      </div>
+
+      <div class="form-group">
+        <label for="horse_power">Мощность</label>
+        <input type="number" id="horse_power" formControlName="horse_power" required>
+      </div>
+
+      <div class="form-group">
+        <label for="engine_capacity">Объем двигателя</label>
+        <input type="number" id="engine_capacity" formControlName="engine_capacity" required>
+      </div>
+
+      <div class="form-group">
+        <label for="transmission">КПП</label>
+        <select id="transmission" formControlName="transmission" required>
+          <option value="Ручная">Ручная</option>
+          <option value="Автоматическая">Автоматическая</option>
+          <option value="Робот">Робот</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="drive_type">Привод</label>
+        <select id="drive_type" formControlName="drive_type" required>
+          <option value="Передний">Передний</option>
+          <option value="Задний">Задний</option>
+          <option value="Полный">Полный</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="fuel_type">Тип топлива</label>
+        <select id="fuel_type" formControlName="fuel_type" required>
+          <option value="Бензин">Бензин</option>
+          <option value="Дизель">Дизель</option>
+          <option value="Газ">Газ</option>
+          <option value="Электричество">Электричество</option>
+          <option value="Гибрид">Гибрид</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="vin_number">VIN номер</label>
+        <input type="text" id="vin_number" formControlName="vin_number" required>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Город</label>
+        <input type="text" id="location" formControlName="location" required>
+      </div>
+    </div>
+
+    <div class="description">
+      <h2>Описание</h2>
+      <textarea formControlName="description" required></textarea>
+    </div>
+
+    <div class="seller-info">
+      <h2>Контактная информация</h2>
+
+      <div class="form-group">
+        <label for="seller_name">Ваше имя</label>
+        <input type="text" id="seller_name" formControlName="seller_name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" formControlName="phone" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" required>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-button">Разместить объявление</button>
+  </form>
+</div>

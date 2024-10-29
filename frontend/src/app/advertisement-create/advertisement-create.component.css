@@ -1,0 +1,206 @@
+.create-page {
+  position: relative;
+  background: #000000;
+  min-height: 87.6vh;
+  padding: 2rem;
+  color: white;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.ad-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.main-info, .characteristics, .description, .seller-info {
+  background: #111111;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #ffffff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input, textarea {
+  width: 95.5%;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #ffffff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  background: #262626;
+}
+
+/* Убираем стрелочки для всех браузеров */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.price-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.price-group input {
+  flex: 2;
+}
+
+.price-group select {
+  flex: 1;
+}
+
+.photo-upload {
+  border: 2px dashed #333;
+  padding: 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.photo-upload:hover {
+  border-color: #444;
+}
+
+.preview-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.preview-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: #262626;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #333;
+}
+
+/* Стили для выпадающих списков */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+}
+
+/* Стили для placeholder */
+::placeholder {
+  color: #666;
+}
+
+/* Стили для валидации */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  background: #301b1b;
+}
+
+/* Стили для disabled состояния */
+input:disabled,
+select:disabled,
+textarea:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Стили для файлового инпута */
+input[type="file"] {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+input[type="file"]::file-selector-button {
+  background: #262626;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: #333;
+}
+
+@media (max-width: 600px) {
+  .create-page {
+    padding: 1rem;
+  }
+
+  .main-info, .characteristics, .description, .seller-info {
+    padding: 1rem;
+  }
+
+  .price-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+}
