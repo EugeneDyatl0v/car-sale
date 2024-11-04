@@ -8,6 +8,7 @@ interface ApiResponse {
   message: string;
   data: {
     ad: {
+      id: string;
       title: string;
       description: string;
       price: number;
