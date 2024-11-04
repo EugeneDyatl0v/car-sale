@@ -55,6 +55,7 @@
               "src/assets/ad_images"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": [],

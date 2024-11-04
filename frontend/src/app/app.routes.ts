@@ -18,6 +18,12 @@ import {
   AdvertisementCreateComponent
 } from "./advertisement-create/advertisement-create.component";
 import {RecommendationComponent} from "./recommendation/recommendation.component";
+import {
+  FilterSettingsComponent
+} from "./filter-settings/filter-settings.component";
+import {
+  FilterSidebarComponent
+} from "./filter-sidebar/filter-sidebar.component";
 
 
 export const routes: Routes = [
@@ -31,5 +37,6 @@ export const routes: Routes = [
   { path: 'advertisement/create', component:AdvertisementCreateComponent },
   { path: 'advertisement/:id', component:AdvertisementComponent },
   { path: 'advertisement-list', component:AdvertisementListComponent},
-  { path: 'recommendation', component:RecommendationComponent}
+  { path: 'recommendation', component:RecommendationComponent},
+  { path: 'test', component:FilterSidebarComponent}
 ];
