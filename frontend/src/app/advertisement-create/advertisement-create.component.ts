@@ -30,7 +30,8 @@ enum BodyType {
     SUV = "Внедорожник",
     HATCHBACK = "Хетчбэк",
     WAGON = "Универсал",
-    COUPE = "Купе"
+    COUPE = "Купе",
+    MINIVAN = "Минивэн"
 }
 
 enum DriveType {
@@ -164,7 +165,8 @@ export class AdvertisementCreateComponent implements OnInit{
 
   fetchUserData() {
     const authToken = localStorage.getItem('authToken');
-
+    console.log(1)
+    console.log(authToken)
     if (!authToken)
     {
       this.router.navigate(['/'])

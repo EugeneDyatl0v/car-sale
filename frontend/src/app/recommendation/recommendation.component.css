@@ -1,0 +1,184 @@
+.page{
+    background: rgb(0,0,0,7);
+    height: auto;
+    min-height: 87.6vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    color: white;
+}
+
+.countries{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Скрываем стандартный чекбокс */
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+/* Основной стиль для кастомного чекбокса */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+  margin: 5px 0;
+}
+
+/* Кружок для кастомного чекбокса */
+.custom-checkbox .checkmark {
+  height: 3vh;
+  width: 1.5vw;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background-color: #fff;
+  margin-right: 10px;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+/* Галочка внутри кружка */
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #4CAF50; /* Цвет фона при выборе */
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+  content: '';
+  position: absolute;
+  top: 0.5vh;
+  left: 0.5vw;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.car{
+  margin-top: 2vh;
+  width: 100%;
+  height: 22vh;
+  overflow-y: hidden;   /* Включаем вертикальный скролл */
+  overflow-x: auto; /* Отключаем горизонтальный скролл */
+  display: flex;
+  margin-bottom: 5vh;
+}
+
+h2{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2vh;
+}
+
+.add-car{
+  min-width: 10vw;
+  height: 15vh;
+  border: 1px solid white;
+  padding: 3vh 2vw;
+  flex-direction: column;
+  display: flex;
+}
+
+.add-car:last-child{
+  background-color: black;
+  font-size: xxx-large;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-car:last-child:hover{
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.exit-button{
+  right: 1vw;
+  border: 1px solid white;
+  border-radius: 25px;
+  width: 1.5vw;
+  height: 3vh;
+  color: black;
+  font-size: larger;
+  transition: all 0.3s ease;
+      align-self: flex-end;
+  margin-bottom: 1vh;
+}
+
+.exit-button:hover{
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.mark, .model{
+  width: 85%;
+  height: 3vh;
+  border: 1px solid white;
+  border-radius: 25px;
+  padding: 0 1vw;
+  margin-bottom: 1.5vh;
+}
+
+
+.sliders{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.slider-container {
+  color: black;
+  width: 10vw;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.slider {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.price-input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -moz-appearance: textfield; /* Для Firefox */
+}
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Для Chrome, Safari и Opera */
+  margin: 0;
+}
+
+.selected-sliders{
+  text-align: center;
+}
+
+.confirm{
+  width: 100%;
+  height: auto;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-button{
+  width: 15vw;
+  height: 6vh;
+  border-radius: 25px;
+}
+
+.confirm-button:hover{
+  cursor: pointer;
+  filter: brightness(0.7);
+}

@@ -17,6 +17,7 @@ import {AdvertisementListComponent} from "./advertisement-list/advertisement-lis
 import {
   AdvertisementCreateComponent
 } from "./advertisement-create/advertisement-create.component";
+import {RecommendationComponent} from "./recommendation/recommendation.component";
 
 
 export const routes: Routes = [
@@ -29,5 +30,6 @@ export const routes: Routes = [
   { path: 'personal-account', component:PersonalAccountComponent },
   { path: 'advertisement/create', component:AdvertisementCreateComponent },
   { path: 'advertisement/:id', component:AdvertisementComponent },
-  { path: 'advertisement-list', component:AdvertisementListComponent}
+  { path: 'advertisement-list', component:AdvertisementListComponent},
+  { path: 'recommendation', component:RecommendationComponent}
 ];
