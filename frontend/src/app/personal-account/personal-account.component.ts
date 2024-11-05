@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
@@ -31,7 +31,8 @@ interface ApiResponse {
     NgSwitch,
     NgSwitchCase,
     FormsModule,
-    DelAccComponent
+    DelAccComponent,
+    NgForOf
   ],
   templateUrl: './personal-account.component.html',
   styleUrl: './personal-account.component.css'

@@ -2,13 +2,14 @@
   position: relative;
   background: rgb(0,0,0,7);
   height: auto;
-  min-height: 80.7vh;
+  min-height: 87.5vh;
   display: flex;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   padding: 2rem;
   color: white;
+  box-sizing: border-box;
 }
 
 .search-container {
@@ -72,19 +73,22 @@
 }
 
 .grid-container {
+  margin: 3vh 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 колонки одинаковой ширины */
   grid-auto-rows: 50vh; /* Высота каждой строки (дивов) 100px */
-  gap: 10px; /* Отступы между дивами (если нужно) */
+  gap: 30px; /* Отступы между дивами (если нужно) */
   width: 100%; /* Ширина таблицы будет равна ширине родителя */
 }
 
 .add {
+  margin-top: 2vh;
   display: flex;
   justify-content: center;
   align-items: center;
     flex-direction: column;
-  border: 1px solid white; /* Добавим границу для визуализации */
+  border: 1px solid white;
+  border-radius: 25px;/* Добавим границу для визуализации */
 }
 
 .pagination {
@@ -101,11 +105,207 @@
 
 .pagination-button.active {
   font-weight: bold;
-  background-color: #007bff;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .pagination-button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Отступы между кнопками */
+  margin: 20px 0;
+}
+
+.pagination button {
+  background-color: white; /* Основной цвет кнопки */
+  border: none;
+  color: black;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px; /* Округление углов */
+}
+
+.pagination button:hover {
+  filter: brightness(0.7) /* Цвет при наведении */
+}
+
+.pagination button[disabled] {
+  background-color: #e0e0e0; /* Цвет для отключенных кнопок */
+  cursor: not-allowed;
+  color: #888; /* Цвет текста для отключенных кнопок */
+}
+
+.pagination .active {
+  background-color: gray; /* Цвет для активной кнопки */
+  font-weight: bold;
+}
+
+.pagination span button {
+  background-color: #f8f9fa; /* Фоновый цвет для кнопок страниц */
+  color: #333; /* Цвет текста для кнопок страниц */
+}
+
+.pagination span button:hover {
+  background-color: #ddd; /* Цвет при наведении для кнопок страниц */
+}
+
+
+
+
+/* Создайте три одинаковых столбца, которые плавают рядом друг с другом */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.column-from-to {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Очистить поплавки после столбцов */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+select {
+    width: 200px; /* Set the width of the select box */
+    padding: 10px;
+    border: 1px solid #ccc; /* Add a light border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    font-size: 16px; /* Set font size */
+    color: #333; /* Text color */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+input {
+    width: 200px; /* Set the width of the select box */
+    padding: 10px;
+    border: 1px solid #ccc; /* Add a light border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    font-size: 16px; /* Set font size */
+    color: #333; /* Text color */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+input:focus {
+    border-color: darkgray; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(128, 128, 128, 0.5); /* Add gray shadow on focus */
+}
+
+select:focus {
+    border-color: darkgray; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(128, 128, 128, 0.5); /* Add gray shadow on focus */
+}
+
+/* Optional: Style the dropdown arrow */
+select::-ms-expand {
+    display: none; /* Hide the default dropdown arrow in IE */
+}
+
+select {
+    width: 90%;
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+}
+
+.half-select {
+  width: 43%;
+  appearance: none; /* Remove default styling */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+}
+
+.from-select {
+  width: 45%;
+  border-radius: 10px 0 0 10px;
+}
+
+.to-select {
+  width: 45%;
+  border-radius: 0 10px 10px 0;
+}
+
+.filters {
+  width: 60vw;
+  height: 50vh;
+  border: 1px solid gray;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  color: black;
+  padding: 2vh 2vw;
+
+}
+
+.row{
+  width: 70vw;
+}
+
+.column{
+  width: 20vw;
+}
+
+option{
+  color: black;
+}
+
+.br-in{
+  padding: 10px;
+  width: 85%;
+}
+.submit-btn {
+    align-items: center;
+    background-color: rgba(240, 240, 240, 1);
+    border: 1px solid #DFDFDF;
+    border-radius: 16px;
+    box-sizing: border-box;
+    color: #000000;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 28px;
+    max-width: 20%;
+    padding: 14px 22px;
+    text-decoration: none;
+    transition: all .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 40%;
+    margin-bottom: 2vh;
+}
+
+.submit-btn:active,
+.submit-btn:hover {
+    outline: 0;
+}
+
+.submit-btn:hover {
+    background-color: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.19);
 }

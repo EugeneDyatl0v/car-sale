@@ -42,11 +42,21 @@
         <button class="submit-btn" *ngSwitchCase=true (click)=save()>Сохранить</button>
     <div *ngSwitchCase=false class="buttons">
         <button class="ads-btn">Мои объявления</button>
-        <button class="del-btn" (click)=openModal()>Удалить аккаунт</button>
-        <app-del-acc>
-
-        </app-del-acc>
+        <button class="ads-btn">Понравившиеся объявления</button>
+        <button class="ads-btn">Добавить объявлениe</button>
     </div>
+
+    <h2 *ngSwitchCase=false class="acc-header" style="margin-top: 10vh;">Недавно просмотренные объявления</h2>
+<div *ngSwitchCase=false class="car">
+    <div *ngFor="let ad of ads!.data.list" class="add">
+      <h4>{{ ad.title }}</h4>
+      <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
+      <h5> Цена: {{ ad.price }} {{ ad.currency }}</h5>
+      <h5> Год: {{ ad.year }}</h5>
+      <button (click)="open_ad(ad.id)">Подробнее</button>
+    </div>
+    </div>
+
   </ng-container>
 
 </section>

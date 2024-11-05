@@ -78,9 +78,11 @@ h2{
   min-width: 10vw;
   height: 15vh;
   border: 1px solid white;
+  border-radius: 25px;
   padding: 3vh 2vw;
   flex-direction: column;
   display: flex;
+  margin-right: 2vw;
 }
 
 .add-car:last-child{
@@ -89,6 +91,7 @@ h2{
   color: white;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
 
 .add-car:last-child:hover{

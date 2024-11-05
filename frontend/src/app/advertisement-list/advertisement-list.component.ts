@@ -1,10 +1,14 @@
 import {Component} from '@angular/core';
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+
 import {FilterSettingsComponent} from "../filter-settings/filter-settings.component";
 import {FilterService} from "../services/filter.service";
 import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
+/*import {FilterSidebarComponent} from "../filter-sidebar/filter-sidebar.component";*/
+import {MatInput} from "@angular/material/input";
+import {FilterSidebarComponent} from "../filter-sidebar/filter-sidebar.component";
 
 
 interface CarListing {
@@ -18,8 +22,8 @@ interface CarListing {
     year: number;
     mileage: number;
     fuel_type: 'DIESEL' | 'PETROL' | 'ELECTRIC' | 'HYBRID'; // добавьте другие возможные значения
-    transmission: 'MANUAL' | 'AUTOMATIC';
-    body_type: 'SUV' | 'SEDAN' | 'HATCHBACK' | 'WAGON'; // добавьте другие типы кузова
+    transmission: 'MANUAL' | 'AUTOMATIC' | 'ROBOT';
+    body_type: 'SUV' | 'SEDAN' | 'HATCHBACK' | 'WAGON' | 'MINIVAN'; // добавьте другие типы кузова
     engine_capacity: number;
     horse_power: number;
     drive_type: 'RWD' | 'FWD' | 'AWD';
@@ -73,7 +77,11 @@ interface imageAPIResponse {
     FormsModule,
     FilterSettingsComponent,
     HttpClientModule,
-    NgForOf
+    NgForOf,
+    /*FilterSidebarComponent,*/
+    MatInput,
+    ReactiveFormsModule,
+    FilterSidebarComponent
   ],
   templateUrl: './advertisement-list.component.html',
   styleUrl: './advertisement-list.component.css'
@@ -82,13 +90,35 @@ export class AdvertisementListComponent {
   searchQuery: string = '';
   ads_per_page: number = 2;
   current_page: number = 1;
-  pages_count: number = 1;
+  pages_count: number = 5;
   ads: ApiResponse | null = null;
   imagePaths: { [key: string]: string } = {};
+  filterForm: FormGroup;
 
-  constructor(private filterService: FilterService, private http: HttpClient, private router: Router) {
+  constructor(private filterService: FilterService, private http: HttpClient, private router: Router, private fb: FormBuilder) {
     this.imagePaths = {};
     this.get_ads(1);
+    this.filterForm = this.fb.group({
+      brand: [''],
+      model: [''],
+      generation: [''],
+      bodyType: [''],
+      transmission: [''],
+      drive: [''],
+      fuelType: [''],
+      engineFrom: [''],
+      engineTo: [''],
+      yearFrom: [''],
+      yearTo: [''],
+      mileageFrom: [''],
+      mileageTo: [''],
+      volumeFrom: [''],
+      volumeTo: [''],
+      priceFrom: [''],
+      priceTo: [''],
+      credit: [false],
+      noMileageInRF: [false]
+    });
   }
 
 
@@ -114,7 +144,7 @@ export class AdvertisementListComponent {
       (response) => {
         if (response.success) {
           this.ads = response;
-          this.pages_count = response.pagination.total_pages;
+          this.pages_count = 5;/*response.pagination.total_pages;*/
           this.ads!.data.list.forEach(ad => {
             this.loadImage(ad.id);
           });
@@ -172,4 +202,23 @@ export class AdvertisementListComponent {
     this.router.navigate([`/advertisement/${id}`]);
   }
 
+
+  brands: string[] = ['Audi', 'BMW', 'Chery', 'Chevrolet', 'Citroen', 'Daewoo', 'Ford','ГАЗ', 'Geely', 'Haval',
+    'Honda', 'Hyundai', 'Kia', 'Land Rover', 'Lexus', 'Mazda', 'Mercedes-Benz', 'Mitsubishi', 'Nissan', 'Opel',
+    'Peugeot', 'Porsche', 'Renault', 'Skoda', 'Subaru', 'Suzuki', 'Toyota', 'Lada (ВАЗ)', 'Volkswagen', 'Volvo'];
+  models: Record<string, string[]> = {
+    'Audi': ['aa', 'av', 'asd'],
+    'Ford': ['fa', 'fv', 'fsd'],
+    'Daewoo': ['da', 'dv', 'dsd'],
+  };
+  bodyTypes: string[] = ["Седан", "Внедорожник", "Хетчбэк", "Универсал", "Купе", "Минивэн", "ГГрузовик"];
+  transmissions: string[] = ["Автомат", "Механика", "Робот"];
+  drives: string[] = ["Передний привод", "Задний привод", "Полный привод"];
+  fuelTypes: string[] = ["Бензин", "Дизель", "Электричество", "Гибрид", "Газ"];
+  selectedBrand: string = '';
+
+
+  onSubmit(): void {
+    console.log(this.filterForm.value); // Output form data
+  }
 }

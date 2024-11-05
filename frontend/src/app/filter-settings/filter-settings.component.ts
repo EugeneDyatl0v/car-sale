@@ -18,7 +18,8 @@ import {NgForOf, NgIf, NgSwitchCase} from "@angular/common";
 export class FilterSettingsComponent {
   isVisible:boolean = false;
   message:string = 'Это важное уведомление!';
-  selectedOption: string = '';
+  selectedMark: string = '';
+  selectedModel: string = '';
   marks: string[] = ['Audi', 'BMW', 'Chery', 'Chevrolet', 'Citroen', 'Daewoo', 'Ford','ГАЗ', 'Geely', 'Haval',
     'Honda', 'Hyundai', 'Kia', 'Land Rover', 'Lexus', 'Mazda', 'Mercedes-Benz', 'Mitsubishi', 'Nissan', 'Opel',
     'Peugeot', 'Porsche', 'Renault', 'Skoda', 'Subaru', 'Suzuki', 'Toyota', 'Lada (ВАЗ)', 'Volkswagen', 'Volvo'];
@@ -47,16 +48,22 @@ export class FilterSettingsComponent {
 
 
   onRadioChangeMarks(value: string) {
-    this.selectedOption = value;
+    this.selectedMark = value;
     this.modelsContainerVisibility = true;
     // выбрать модели
     this.models = ['100', 'Front', 'RS 2', 'SQ2', '200', 'NSU RO 80', 'RS 3', 'SQ5', '50', 'Q2', 'RS 4',
       'SQ5 Sportback', '80', 'Q3', 'RS 5', 'SQ7', '90', 'Q3 Sportback', 'RS 6', 'SQ8', '920', 'Q4 Sportback e-tron',
       'RS 7', 'SQ8 Sportback e-tron'
 ];
-    console.log('Selected option:', this.selectedOption);
+    console.log('Selected option:', this.selectedMark);
   }
 
+  onRadioChangeModels(value: string) {
+    this.selectedModel = value;
+    // выбрать модели
+
+    console.log('Selected option:', this.selectedModel);
+  }
   minPrice: number = 0;
   maxPrice: number = 100000;
   selectedMinPrice: number = 500; // Начальное значение слайдера

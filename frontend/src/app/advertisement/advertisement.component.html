@@ -1,4 +1,9 @@
-<div class="page"> <h1>{{ myAdData.title }}</h1>
+<div class="page">
+
+  <button class="like-button" (click)="on_click()"
+  [ngClass]="{ 'active': isActive }"></button>
+
+  <h1>{{ myAdData.title }}</h1>
 
   <div class="info">
   <div class="photos">

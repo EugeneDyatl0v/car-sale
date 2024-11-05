@@ -1,28 +1,59 @@
 <div class="page">
-  <div class="search-container">
+  <!--  <div class="search-container">
         <input [(ngModel)]="searchQuery" type="text" class="search-input" placeholder="Введите запрос...">
         <button class="button button-filter" (click)="openModal()"></button>
         <button class="button button-search" (click)="onSearch()"></button>
     </div>
-  <app-filter-settings>
+    -->
+  <app-filter-sidebar>
 
-  </app-filter-settings>
+  </app-filter-sidebar>
+
+
   <div class="grid-container" >
+        <div class="add">
+      <h4>title</h4>
+      <img src="../../assets/audi.jpg" alt="main-photo" width="240" height="240">
+      <h5> Цена: price currency </h5>
+      <h5> Год: year</h5>
+      <button  class="submit-btn">Подробнее</button>
+    </div>
+            <div class="add">
+      <h4>title</h4>
+      <img src="../../assets/audi.jpg" alt="main-photo" width="240" height="240">
+      <h5> Цена: price currency </h5>
+      <h5> Год: year</h5>
+      <button  class="submit-btn">Подробнее</button>
+    </div>
+            <div class="add">
+      <h4>title</h4>
+      <img src="../../assets/audi.jpg" alt="main-photo" width="240" height="240">
+      <h5> Цена: price currency </h5>
+      <h5> Год: year</h5>
+      <button  class="submit-btn">Подробнее</button>
+    </div>
+    <div class="add">
+      <h4>title</h4>
+      <img src="../../assets/audi.jpg" alt="main-photo" width="240" height="240">
+      <h5> Цена: price currency </h5>
+      <h5> Год: year</h5>
+      <button  class="submit-btn">Подробнее</button>
+    </div>
     <div *ngFor="let ad of ads!.data.list" class="add">
       <h4>{{ ad.title }}</h4>
       <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
-      <h5>{{ ad.price }} {{ ad.currency }}</h5>
-      <h5>{{ ad.year }}</h5>
+      <h5> Цена: {{ ad.price }} {{ ad.currency }}</h5>
+      <h5> Год: {{ ad.year }}</h5>
       <button (click)="open_ad(ad.id)">Подробнее</button>
     </div>
   </div>
 
   <div class="pagination">
-    <button (click)="setPage(current_page - 1)" [disabled]="current_page === 1">« Пред</button>
+    <button  (click)="setPage(current_page - 1)" [disabled]="current_page === 1">« Пред</button>
       <span *ngFor="let page of [].constructor(pages_count); let i = index">
-        <button (click)="setPage(i + 1)" [class.active]="current_page === i + 1">{{ i + 1 }}</button>
+        <button  (click)="setPage(i + 1)" [class.active]="current_page === i + 1">{{ i + 1 }}</button>
       </span>
-    <button (click)="setPage(current_page + 1)" [disabled]="current_page === pages_count">След »</button>
+    <button  (click)="setPage(current_page + 1)" [disabled]="current_page === pages_count">След »</button>
   </div>
 
 </div>

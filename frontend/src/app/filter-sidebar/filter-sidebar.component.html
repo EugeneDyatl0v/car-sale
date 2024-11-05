@@ -1,58 +1,95 @@
 <div class="filters">
   <div class="row">
     <div class="column">
-      <select>
-          <option value="" disabled selected>Brand</option>
-          <option value="Audi">Audi</option>
-      </select>
+        <input
+      type="text"
+      list="brand_options"
+      placeholder="Выберите марку"
+      [(ngModel)]="selectedBrand"
+    />
+    <datalist id="brand_options">
+      <option *ngFor="let value of brands" [value]="value">{{value}}</option>
+    </datalist>
+
     </div>
     <div class="column">
-      <select>
-          <option value="" disabled selected>Model</option>
-          <option value="Q7">Q7</option>
-      </select>
+        <input
+      type="text"
+      list="model_options"
+      placeholder="Выберите модель"
+    />
+    <datalist id="model_options">
+      <option *ngFor="let value of models[selectedBrand]" [value]="value">{{value}}</option>
+    </datalist>
     </div>
     <div class="column">
-      <select class="half-select">
-          <option value="" disabled selected>Body type</option>
-          <option value="Sedan">Sedan</option>
-      </select>
-      <select class="half-select">
-          <option value="" disabled selected>Transmission</option>
-          <option value="Robot">Robot</option>
+      <select >
+          <option value="" disabled selected >Выберите привод</option>
+        <option >Передний привод</option>
+        <option>Задний привод</option>
+        <option>Полный привод</option>
       </select>
     </div>
   </div>
 
+    <div class="row">
+      <div class="column">
+        <select >
+          <option value="" disabled selected hidden>Выберите тип кузова</option>
+          <option> Седан</option>
+          <option> Внедорожник</option>
+          <option> Хетчбэк</option>
+          <option> Универсал</option>
+          <option> Купе</option>
+          <option> Минивэн</option>
+      </select>
+      </div>
+      <div class="column">
+        <select >
+          <option value="" disabled selected hidden>Выберите тип топлива</option>
+          <option >Бензин</option>
+          <option> Дизель</option>
+          <option> Электричество</option>
+          <option> Гибрид</option>
+          <option> Газ
+          </option>
+      </select>
+      </div>
+      <div class="column">
+              <select>
+        <option value="" disabled selected hidden>Выберите КПП</option>
+                <option>Автомат</option>
+                <option> Механика</option>
+                <option> Робот
+          </option>
+      </select>
+      </div>
+    </div>
   <div class="row">
-    <div class="column">
-      <select class="half-select">
-          <option value="" disabled selected>Body type</option>
-          <option value="Sedan">Sedan</option>
-      </select>
-      <select class="half-select">
-          <option value="" disabled selected>Transmission</option>
-          <option value="Robot">Robot</option>
-      </select>
+    <div class="column-from-to">
+      <input class="from-select" placeholder="Mileage from" type="number">
+      <input class="to-select" placeholder="Mileage to" type="number">
     </div>
     <div class="column-from-to">
-      <input class="from-select" placeholder="Year from">
-      <input class="to-select" placeholder="Year to">
+      <input class="from-select" placeholder="Year from" type="number">
+      <input class="to-select" placeholder="Year to" type="number">
     </div>
     <div class="column-from-to">
-      <input class="from-select" placeholder="Year from">
-      <input class="to-select" placeholder="Year to">
+      <input class="from-select" placeholder="Price from" type="number">
+      <input class="to-select" placeholder="Price to" type="number">
     </div>
   </div>
 
   <div class="row">
     <div class="column-from-to">
-      <input class="from-select" placeholder="Year from">
-      <input class="to-select" placeholder="Year to">
+      <input class="from-select" placeholder="Engine from" type="number">
+      <input class="to-select" placeholder="Engine to" type="number">
     </div>
     <div class="column-from-to">
-      <input class="from-select" placeholder="Year from">
-      <input class="to-select" placeholder="Year to">
+      <input class="from-select" placeholder="Volume from" type="number">
+      <input class="to-select" placeholder="Volume to" type="number">
     </div>
   </div>
+      <button type="submit" class="submit-btn">Подтвердить</button>
+
 </div>

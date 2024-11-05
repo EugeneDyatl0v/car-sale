@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -85,7 +85,8 @@ enum DriveType {
     NgOptimizedImage,
     NgIf,
     HttpClientModule,
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   templateUrl: './advertisement.component.html',
   styleUrl: './advertisement.component.css'
@@ -225,4 +226,10 @@ export class AdvertisementComponent implements OnInit{
   protected readonly Transmission = Transmission;
   protected readonly DriveType = DriveType;
   protected readonly FuelType = FuelType;
+
+    isActive: boolean = false;
+
+  on_click(){
+    this.isActive = !this.isActive;
+  }
 }

@@ -201,6 +201,7 @@ input:hover {
   margin-top: 7vh;
   display: flex;
   justify-content: space-evenly;
+  gap: 30px;
 }
 
 .ads-btn, .del-btn{
@@ -223,4 +224,32 @@ input:hover {
   text-decoration: underline;
   text-decoration-color: red;
   color: red;
+}
+
+.car{
+  margin-top: 2vh;
+  width: 100%;
+  height: auto;
+  overflow-y: hidden;   /* Включаем вертикальный скролл */
+  overflow-x: auto; /* Отключаем горизонтальный скролл */
+  display: flex;
+  margin-bottom: 5vh;
+  gap: 30px;
+}
+
+.add {
+  height: 55vh;
+  min-width: 25vw;
+  width: auto;
+  margin: 2vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    flex-direction: column;
+  border: 1px solid white;
+  border-radius: 25px;/* Добавим границу для визуализации */
+}
+
+img{
+  margin: 4vh 0;
 }

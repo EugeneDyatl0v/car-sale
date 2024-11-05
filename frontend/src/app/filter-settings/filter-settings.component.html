@@ -12,7 +12,7 @@
       [value]="option"
       name="options"
       (change)="onRadioChangeMarks(option)"
-      [checked]="option === selectedOption" />
+      [checked]="option === selectedMark" />
     <p class="custom-radio">{{ option }}</p>
   </label>
 </div>
@@ -26,8 +26,8 @@
       type="radio"
       [value]="option"
       name="options"
-      (change)="onRadioChangeMarks(option)"
-      [checked]="option === selectedOption" />
+      (change)="onRadioChangeModels(option)"
+      [checked]="option === selectedModel" />
     <p class="custom-radio">{{ option }}</p>
   </label>
 </div>
