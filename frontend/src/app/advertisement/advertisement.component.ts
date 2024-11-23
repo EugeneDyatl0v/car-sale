@@ -48,6 +48,10 @@ interface imageAPIResponse {
   data: ImageOutSchema[];
 }
 
+interface response200 {
+  success: boolean;
+  message: string;
+}
 
 enum FuelType {
     PETROL = "Бензин",
@@ -115,8 +119,47 @@ export class AdvertisementComponent implements OnInit{
       this.adId = params.get('id');
       if (this.adId) {
         this.fetchAdData(this.adId);
+        this.add_ad_to_recently_viewed();
       }
     });
+  }
+
+  add_ad_to_recently_viewed(){
+    const authToken = localStorage.getItem('authToken');
+
+    console.log(authToken);
+
+    if (!authToken)
+    {
+      this.router.navigate(['/authorize'])
+    }
+
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken
+      }
+    );
+
+    this.http.post<response200>(
+      `http://localhost:8008/users/recently-viewed/?ad_id=${this.adId}`,
+      {},
+      {
+        headers: headers
+      }
+    ).subscribe(
+      (response) => {
+        if (response.success) {
+          console.info('Ad added to recently viewed')
+        } else {
+          console.error('Error while adding ad to recently viewed');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
   }
 
   fetchAdData(id: string) {

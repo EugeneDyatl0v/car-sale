@@ -208,11 +208,11 @@ h4{
   background-position: center;
   background-repeat: no-repeat;
   transition: all 0.3s ease;
-  background-image: url("../../assets/heart.svg");
+  background-image: url("../../assets/trash.svg");
 }
 
 .like-button:hover{
-  background-image: url("../../assets/heart.svg");
+  background-image: url("../../assets/trash.svg");
   background-size: 50%, auto;
   background-position: center;
   background-repeat: no-repeat;

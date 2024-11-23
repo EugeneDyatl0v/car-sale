@@ -88,9 +88,9 @@ interface imageAPIResponse {
 })
 export class AdvertisementListComponent {
   searchQuery: string = '';
-  ads_per_page: number = 2;
+  ads_per_page: number = 9;
   current_page: number = 1;
-  pages_count: number = 5;
+  pages_count: number = 1;
   ads: ApiResponse | null = null;
   imagePaths: { [key: string]: string } = {};
   filterForm: FormGroup;
@@ -144,7 +144,7 @@ export class AdvertisementListComponent {
       (response) => {
         if (response.success) {
           this.ads = response;
-          this.pages_count = 5;/*response.pagination.total_pages;*/
+          this.pages_count = response.pagination.total_pages;
           this.ads!.data.list.forEach(ad => {
             this.loadImage(ad.id);
           });
