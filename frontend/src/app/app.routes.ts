@@ -24,6 +24,8 @@ import {
 import {
   FilterSidebarComponent
 } from "./filter-sidebar/filter-sidebar.component";
+import {RecommendationPageComponent} from "./recommendation-page/recommendation-page.component";
+import {DraggableYearSelectorComponent} from "./draggable-year-selector/draggable-year-selector.component";
 
 
 export const routes: Routes = [
@@ -38,5 +40,5 @@ export const routes: Routes = [
   { path: 'advertisement/:id', component:AdvertisementComponent },
   { path: 'advertisement-list', component:AdvertisementListComponent},
   { path: 'recommendation', component:RecommendationComponent},
-  { path: 'test', component:FilterSidebarComponent}
+  { path: 'recommendation-page', component:RecommendationPageComponent}
 ];

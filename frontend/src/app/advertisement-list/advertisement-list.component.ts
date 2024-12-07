@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-
-import {FilterSettingsComponent} from "../filter-settings/filter-settings.component";
 import {FilterService} from "../services/filter.service";
 import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
@@ -75,7 +73,6 @@ interface imageAPIResponse {
   standalone: true,
   imports: [
     FormsModule,
-    FilterSettingsComponent,
     HttpClientModule,
     NgForOf,
     /*FilterSidebarComponent,*/

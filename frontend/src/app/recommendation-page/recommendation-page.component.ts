@@ -1,0 +1,223 @@
+import { Component } from '@angular/core';
+import {NgForOf, NgIf, NgSwitch, NgSwitchCase} from "@angular/common";
+import {DraggableYearSelectorComponent} from "../draggable-year-selector/draggable-year-selector.component";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+
+enum FuelType {
+    PETROL = "Бензин",
+    DIESEL = "Дизель",
+    ELECTRIC = "Электричество",
+    HYBRID = "Гибрид",
+    GAS = "Газ"
+}
+
+enum Transmission {
+    MANUAL = "Ручная",
+    AUTOMATIC = "Автоматическая",
+    CVT = "Робот"
+}
+
+enum BodyType {
+    SEDAN = "Седан",
+    SUV = "Внедорожник",
+    HATCHBACK = "Хетчбэк",
+    WAGON = "Универсал",
+    COUPE = "Купе",
+    MINIVAN = "Минивэн"
+}
+
+enum DriveType {
+    FWD = "Передний",
+    RWD = "Задний",
+    AWD = "Полный"
+}
+
+interface RecommendationList {
+  brand: string[];
+  yearFrom: number;
+  yearTo: number;
+  fuelType: string[];
+  transmission: string[];
+  bodyType: string[];
+  driveType: string[];
+}
+
+interface BrandsApiResponse {
+  success: boolean;
+  message: string;
+  data: {
+    brands: string[];
+  };
+}
+
+
+@Component({
+  selector: 'app-recommendation-page',
+  standalone: true,
+  imports: [
+    NgSwitch,
+    NgSwitchCase,
+    NgIf,
+    NgForOf,
+    DraggableYearSelectorComponent
+  ],
+  templateUrl: './recommendation-page.component.html',
+  styleUrl: './recommendation-page.component.css'
+})
+export class RecommendationPageComponent {
+  pages = ['page1', 'page2', 'page3', 'page4'];
+  currentPageIndex = 0;
+  selectedBrands: string[] = [];
+  selectedYearFrom: number = 0;
+  selectedYearTo: number = 0;
+  selectedFuelType: string[] = [];
+  selectedTransmisson: string[] = [];
+  selectedBodyType: string[] = [];
+  selectedDriveType: string[] = [];
+  brands: string[] = [];
+  bodyTypes: string[] = Object.values(BodyType);
+  transmissions: string[] = Object.values(Transmission);
+  drives: string[] = Object.values(DriveType);
+  fuelTypes: string[] = Object.values(FuelType);
+
+  constructor(private http: HttpClient,) {
+  }
+
+  ngOnInit(){
+    this.fetchBrandsData();
+  }
+
+  fetchBrandsData(){
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+      }
+    );
+
+    this.http.get<BrandsApiResponse>(`http://localhost:8008/cars/brands/`, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          this.brands = response.data.brands;
+
+        } else {
+          console.error('Ошибка при получении данных пользователя');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
+  }
+  // Получение текущей страницы
+  get currentPage() {
+    return this.pages[this.currentPageIndex];
+  }
+
+  // Переход на предыдущую страницу
+  prevPage() {
+    if (this.currentPageIndex > 0) {
+      this.currentPageIndex--;
+    }
+  }
+
+  // Переход на следующую страницу
+  nextPage() {
+    if (this.currentPageIndex < this.pages.length - 1) {
+      this.currentPageIndex++;
+    }
+  }
+
+  save(){
+    this.updateFilters();
+    console.log('ok');
+  }
+
+  // Выбранные значения
+
+  // Объект фильтров
+  data: RecommendationList = {
+    brand: this.selectedBrands,
+    yearFrom: this.selectedYearFrom,
+    yearTo: this.selectedYearTo,
+    fuelType: this.selectedFuelType,
+    transmission: this.selectedTransmisson,
+    bodyType: this.selectedBodyType,
+    driveType: this.selectedDriveType
+  };
+
+  // Метод для обновления объекта фильтров
+  updateFilters() {
+
+    this.data = {
+      brand: this.selectedBrands,
+      yearFrom: this.selectedYearFrom,
+      yearTo: this.selectedYearTo,
+      fuelType: this.selectedFuelType,
+      transmission: this.selectedTransmisson,
+      bodyType: this.selectedBodyType,
+      driveType: this.selectedDriveType
+    };
+    console.log(this.data)
+  }
+
+  onBrandChange(car: string) {
+    let index = this.selectedBrands.findIndex(selectedCar => selectedCar === car);
+    if (index === -1) {
+      this.selectedBrands.push(car);
+    } else {
+      this.selectedBrands.splice(index, 1);
+    }
+    console.log(this.selectedBrands)
+  }
+
+  onFuelTypeChange(car: string) {
+    let index = this.selectedFuelType.findIndex(selectedCar => selectedCar === car);
+    if (index === -1) {
+      this.selectedFuelType.push(car);
+    } else {
+      this.selectedFuelType.splice(index, 1);
+    }
+    console.log(this.selectedFuelType)
+  }
+
+  onTransmissionChange(car: string) {
+    let index = this.selectedTransmisson.findIndex(selectedCar => selectedCar === car);
+    if (index === -1) {
+      this.selectedTransmisson.push(car);
+    } else {
+      this.selectedTransmisson.splice(index, 1);
+    }
+    console.log(this.selectedTransmisson)
+  }
+
+  onBodyTypeChange(car: string) {
+    let index = this.selectedBodyType.findIndex(selectedCar => selectedCar === car);
+    if (index === -1) {
+      this.selectedBodyType.push(car);
+    } else {
+      this.selectedBodyType.splice(index, 1);
+    }
+    console.log(this.selectedBodyType)
+  }
+
+  onDriveTypeChange(car: string) {
+    let index = this.selectedDriveType.findIndex(selectedCar => selectedCar === car);
+    if (index === -1) {
+      this.selectedDriveType.push(car);
+    } else {
+      this.selectedDriveType.splice(index, 1);
+    }
+    console.log(this.selectedDriveType)
+  }
+
+
+  handleMinimalYear(data: number) {
+    this.selectedYearFrom = data; // Сохраняем данные из первого компонента
+    console.log(`Первый компонент отправил: ${data}`); // Логируем данные
+  }
+
+  handleMaximumYear(data: number) {
+    this.selectedYearTo = data; // Сохраняем данные из второго компонента
+    console.log(`Второй компонент отправил: ${data}`); // Логируем данные
+  }
+}

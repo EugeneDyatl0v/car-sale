@@ -1,0 +1,93 @@
+<section class="page">
+<ng-container [ngSwitch]="currentPage">
+  <div *ngSwitchCase="'page3'" class="select-page">
+
+<h3>Выберите модели автомобилей</h3>
+<div class="car-selector">
+  <div
+    *ngFor="let car of brands"
+    class="car-button"
+    [class.selected]="selectedBrands.includes(car)"
+    (click)="onBrandChange(car)"
+  >
+    {{ car}}
+  </div>
+</div>
+
+
+  </div>
+
+  <!-- Вторая страница -->
+  <div *ngSwitchCase="'page2'" class="select-page">
+    <h3>Выберите тип кузова</h3>
+<div class="car-selector">
+  <div
+    *ngFor="let car of bodyTypes"
+    class="car-button"
+    [class.selected]="selectedBodyType.includes(car)"
+    (click)="onBodyTypeChange(car)"
+  >
+    {{ car}}
+  </div>
+  </div>
+  </div>
+
+  <!-- Третья страница -->
+  <div *ngSwitchCase="'page1'" class="select-page">
+        <h3>Выберите тип привода</h3>
+<div class="car-selector">
+  <div
+    *ngFor="let car of drives"
+    class="car-button"
+    [class.selected]="selectedDriveType.includes(car)"
+    (click)="onDriveTypeChange(car)"
+  >
+    {{ car}}
+  </div>
+  </div>
+        <h3 style="margin-top: 5vh">Выберите тип КПП</h3>
+<div class="car-selector">
+  <div
+    *ngFor="let car of transmissions"
+    class="car-button"
+    [class.selected]="selectedTransmisson.includes(car)"
+    (click)="onTransmissionChange(car)"
+  >
+    {{ car}}
+  </div>
+  </div>
+  </div>
+
+    <div *ngSwitchCase="'page4'" class="select-page">
+    <h3>Выберите тип топлива</h3>
+<div class="car-selector">
+  <div
+    *ngFor="let car of fuelTypes"
+    class="car-button"
+    [class.selected]="selectedFuelType.includes(car)"
+    (click)="onFuelTypeChange(car)"
+  >
+    {{ car}}
+  </div>
+  </div>
+<div class="container">
+    <div class="left">
+        <h5>Выберите минимальный год выпуска</h5>
+        <app-draggable-year-selector (dataEmitter)="handleMinimalYear($event)">
+        </app-draggable-year-selector>
+    </div>
+    <div class="right">
+        <h5>Выберите максимальный год выпуска</h5>
+      <app-draggable-year-selector (dataEmitter)="handleMaximumYear($event)">
+      </app-draggable-year-selector>
+    </div>
+</div>
+  </div>
+
+      <div class="buttons">
+        <button *ngIf="currentPageIndex !== 0" class="ads-btn" (click)="prevPage()" >Назад</button>
+        <button *ngIf="currentPageIndex !== pages.length - 1" class="ads-btn" (click)="nextPage()" >Далее</button>
+        <button *ngIf="currentPageIndex === pages.length - 1" class="ads-btn" (click)="save()" >Сохранить</button>
+    </div>
+</ng-container>
+</section>

@@ -104,11 +104,11 @@ interface RecentlyViewedApiResponse {
 })
 
 export class PersonalAccountComponent implements OnInit{
-  userName: string = 'Nikita';
-  userLastName: string = 'Psshin';
-  email: string = 'neverdoit@mail.com';
-  phoneNumber: string = '+375206776093';
-  address: string = 'Минск'
+  userName: string = '';
+  userLastName: string = '';
+  email: string = '';
+  phoneNumber: string = '+';
+  address: string = ''
   edit:boolean = false;
   ads: AdApiResponse | null = null;
   recently_viewed_ads: RecentlyViewedApiResponse | null = null;
@@ -116,13 +116,6 @@ export class PersonalAccountComponent implements OnInit{
 
   constructor(private http: HttpClient,  private router: Router, private authService: AuthService, private delAccService: DelAccService) {}
 
-  openModal() {
-    this.delAccService.open('Это важное уведомление!');
-  }
-
-  login(){
-    this.authService.login('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c')
-  }
 
   ngOnInit() {
     this.fetchUserData();
@@ -145,6 +138,7 @@ export class PersonalAccountComponent implements OnInit{
   }
 
   fetchUserData() {
+
     const authToken = localStorage.getItem('authToken');
 
     if (!authToken)
@@ -276,4 +270,7 @@ export class PersonalAccountComponent implements OnInit{
     this.router.navigate([`/advertisement/${id}`]);
   }
 
+  add_ad(){
+    this.router.navigate([`/advertisement/create`]);
+  }
 }

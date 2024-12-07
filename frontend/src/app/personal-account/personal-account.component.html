@@ -43,7 +43,7 @@
     <div *ngSwitchCase=false class="buttons">
         <button class="ads-btn">Мои объявления</button>
         <button class="ads-btn">Понравившиеся объявления</button>
-        <button class="ads-btn">Добавить объявлениe</button>
+        <button class="ads-btn" (click)="add_ad()">Добавить объявлениe</button>
     </div>
 
     <h2 *ngSwitchCase=false class="acc-header" style="margin-top: 10vh;">Недавно просмотренные объявления</h2>
