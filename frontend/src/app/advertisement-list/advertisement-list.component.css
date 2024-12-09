@@ -163,15 +163,14 @@
 /* Создайте три одинаковых столбца, которые плавают рядом друг с другом */
 .column {
   float: left;
-  width: 33.33%;
+  width: 30%;
   padding: 10px;
   display: flex;
-  justify-content: space-evenly;
 }
 
 .column-from-to {
   float: left;
-  width: 33.33%;
+  width: 30%;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -196,7 +195,7 @@ select {
 }
 
 input {
-    width: 200px; /* Set the width of the select box */
+    width: 100%; /* Set the width of the select box */
     padding: 10px;
     border: 1px solid #ccc; /* Add a light border */
     border-radius: 10px; /* Rounded corners */
@@ -224,14 +223,14 @@ select::-ms-expand {
 }
 
 select {
-    width: 90%;
+    width: 100%;
     appearance: none; /* Remove default styling */
     -webkit-appearance: none; /* For Safari */
     -moz-appearance: none; /* For Firefox */
 }
 
 .half-select {
-  width: 43%;
+  width: 50%;
   appearance: none; /* Remove default styling */
   -webkit-appearance: none; /* For Safari */
   -moz-appearance: none; /* For Firefox */
@@ -248,34 +247,14 @@ select {
 }
 
 .filters {
+  box-sizing: border-box;
   width: 60vw;
-  height: 50vh;
+  height: auto;
   border: 1px solid gray;
   border-radius: 20px;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  color: black;
   padding: 2vh 2vw;
-
 }
 
-.row{
-  width: 70vw;
-}
-
-.column{
-  width: 20vw;
-}
-
-option{
-  color: black;
-}
-
-.br-in{
-  padding: 10px;
-  width: 85%;
-}
 .submit-btn {
     align-items: center;
     background-color: rgba(240, 240, 240, 1);
@@ -297,7 +276,7 @@ option{
     -webkit-user-select: none;
     touch-action: manipulation;
     width: 40%;
-    margin-bottom: 2vh;
+    margin: 2vh auto;
 }
 
 .submit-btn:active,

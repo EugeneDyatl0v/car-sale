@@ -165,8 +165,6 @@ export class AdvertisementCreateComponent implements OnInit{
 
   fetchUserData() {
     const authToken = localStorage.getItem('authToken');
-    console.log(1)
-    console.log(authToken)
     if (!authToken)
     {
       this.router.navigate(['/'])

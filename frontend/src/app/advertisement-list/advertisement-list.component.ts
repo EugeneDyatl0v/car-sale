@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FilterService} from "../services/filter.service";
 import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
@@ -67,6 +67,51 @@ interface imageAPIResponse {
   data: ImageOutSchema[];
 }
 
+enum FuelType {
+    PETROL = "Бензин",
+    DIESEL = "Дизель",
+    ELECTRIC = "Электричество",
+    HYBRID = "Гибрид",
+    GAS = "Газ"
+}
+
+enum Transmission {
+    MANUAL = "Ручная",
+    AUTOMATIC = "Автоматическая",
+    CVT = "Робот"
+}
+
+enum BodyType {
+    SEDAN = "Седан",
+    SUV = "Внедорожник",
+    HATCHBACK = "Хетчбэк",
+    WAGON = "Универсал",
+    COUPE = "Купе",
+    MINIVAN = "Минивэн"
+}
+
+enum DriveType {
+    FWD = "Передний",
+    RWD = "Задний",
+    AWD = "Полный"
+}
+
+interface BrandsApiResponse {
+  success: boolean;
+  message: string;
+  data: {
+    brands: string[];
+  };
+}
+
+interface ModelsApiResponse {
+  success: boolean;
+  message: string;
+  data: {
+    models: string[];
+  };
+}
+
 
 @Component({
   selector: 'app-advertisement-list',
@@ -83,8 +128,7 @@ interface imageAPIResponse {
   templateUrl: './advertisement-list.component.html',
   styleUrl: './advertisement-list.component.css'
 })
-export class AdvertisementListComponent {
-  searchQuery: string = '';
+export class AdvertisementListComponent implements OnInit{
   ads_per_page: number = 9;
   current_page: number = 1;
   pages_count: number = 1;
@@ -118,6 +162,10 @@ export class AdvertisementListComponent {
     });
   }
 
+  ngOnInit(){
+    this.fetchBrandsData();
+
+  }
 
   get_ads(page: number) {
     const headers = new HttpHeaders(
@@ -180,15 +228,52 @@ export class AdvertisementListComponent {
 
   }
 
-  openModal() {
+  fetchBrandsData(){
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+      }
+    );
 
-    this.filterService.open('Это важное уведомление!');
+    this.http.get<BrandsApiResponse>(`http://localhost:8008/cars/brands/`, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          console.log(response);
+          this.brands = response.data.brands;
+
+        } else {
+          console.error('Ошибка при получении данных пользователя');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
   }
 
-  onSearch() {
-    console.log('Значение input:', this.searchQuery); // Здесь можно выполнить действие с значением
-    // Логика, связанная с отправкой значения
+
+  fetchModelsData(){
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+      }
+    );
+
+    this.http.get<ModelsApiResponse>(`http://localhost:8008/cars/${this.selectedBrand}/models/`, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          this.models = response.data.models;
+
+        } else {
+          console.error('Ошибка при получении данных пользователя');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
   }
+
 
   setPage(page: number) {
     this.current_page = page;
@@ -200,22 +285,22 @@ export class AdvertisementListComponent {
   }
 
 
-  brands: string[] = ['Audi', 'BMW', 'Chery', 'Chevrolet', 'Citroen', 'Daewoo', 'Ford','ГАЗ', 'Geely', 'Haval',
-    'Honda', 'Hyundai', 'Kia', 'Land Rover', 'Lexus', 'Mazda', 'Mercedes-Benz', 'Mitsubishi', 'Nissan', 'Opel',
-    'Peugeot', 'Porsche', 'Renault', 'Skoda', 'Subaru', 'Suzuki', 'Toyota', 'Lada (ВАЗ)', 'Volkswagen', 'Volvo'];
-  models: Record<string, string[]> = {
-    'Audi': ['aa', 'av', 'asd'],
-    'Ford': ['fa', 'fv', 'fsd'],
-    'Daewoo': ['da', 'dv', 'dsd'],
-  };
+  brands: string[] = [];
+  models: string[] = [];
   bodyTypes: string[] = ["Седан", "Внедорожник", "Хетчбэк", "Универсал", "Купе", "Минивэн", "ГГрузовик"];
   transmissions: string[] = ["Автомат", "Механика", "Робот"];
   drives: string[] = ["Передний привод", "Задний привод", "Полный привод"];
   fuelTypes: string[] = ["Бензин", "Дизель", "Электричество", "Гибрид", "Газ"];
   selectedBrand: string = '';
+  selectedModel: string = '';
 
+  onBrandChange() {
+    this.fetchModelsData()
+    console.log(this.models)
+  }
 
   onSubmit(): void {
-    console.log(this.filterForm.value); // Output form data
+    console.log(this.selectedBrand); // Output form data
+    console.log(this.selectedModel);
   }
 }

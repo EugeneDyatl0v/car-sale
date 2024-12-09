@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
-
+import {AuthService} from "../services/auth.service";
 interface ApiResponse {
   success: boolean;
   message: string;
@@ -111,7 +111,7 @@ export class AdvertisementComponent implements OnInit{
   transmission: string = '';
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit(){
@@ -127,7 +127,6 @@ export class AdvertisementComponent implements OnInit{
   add_ad_to_recently_viewed(){
     const authToken = localStorage.getItem('authToken');
 
-    console.log(authToken);
 
     if (!authToken)
     {
@@ -183,8 +182,7 @@ export class AdvertisementComponent implements OnInit{
           this.body_type = setEnumValue(BodyType, this.myAdData.body_type);
           this.fuel_type = setEnumValue(FuelType, this.myAdData.fuel_type);
           this.transmission = setEnumValue(Transmission, this.myAdData.transmission);
-          console.log(response.data.ad)
-          console.log(this.myAdData)
+
         } else {
           console.error('Ошибка при получении данных пользователя');
         }
@@ -239,7 +237,6 @@ export class AdvertisementComponent implements OnInit{
     img.onload = () => {
       imageWidth = img.naturalWidth; // Получаем ширину
       imageHeight = img.naturalHeight; // Получаем высоту
-      console.log((imageHeight/imageWidth)*240)
       this.heightList.push((imageHeight/imageWidth)*240)
     };
 
@@ -265,14 +262,68 @@ export class AdvertisementComponent implements OnInit{
     this.clicked = true;
   }
 
+  check_ad(){
+    const authToken = localStorage.getItem('authToken');
+    if (typeof authToken === "string") {
+      let payload = this.decodeJWT(authToken);
+      console.log(payload.payload.user_info.email);
+      return payload.payload.user_info.email === this.myAdData.seller_email;
+    } else {
+      return false
+    }
+  }
+
+  decodeJWT(token: string): any {
+    try {
+        const [headerB64, payloadB64] = token.split('.');
+        const header = JSON.parse(atob(headerB64));
+        const payload = JSON.parse(atob(payloadB64));
+        console.log(payload);
+        return {
+            payload
+        };
+        }
+        catch (error) {
+        throw new Error('Invalid JWT token');
+    }
+  }
+
   protected readonly BodyType = BodyType;
   protected readonly Transmission = Transmission;
   protected readonly DriveType = DriveType;
   protected readonly FuelType = FuelType;
 
-    isActive: boolean = false;
+  isLikeActive: boolean = false;
+  isDislikeActive: boolean = false;
+  isLike:boolean|null = null;
 
-  on_click(){
-    this.isActive = !this.isActive;
+
+  on_click_delete(){
+    //удаление
+  }
+
+  on_click_like(){
+    this.isLikeActive = !this.isLikeActive;
+    this.isDislikeActive = false;
+    this.check_like()
+    console.log(this.isLike)
+  }
+
+
+  on_click_dislike(){
+    this.isDislikeActive = !this.isDislikeActive;
+    this.isLikeActive = false;
+    this.check_like()
+    console.log(this.isLike)
+  }
+
+  check_like(){
+    if (this.isDislikeActive == this.isLikeActive){
+      this.isLike = null;
+    } else if (this.isLikeActive){
+      this.isLike = true;
+    } else if (this.isDislikeActive){
+      this.isLike = false;
+    }
   }
 }

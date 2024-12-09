@@ -1,8 +1,11 @@
 <div class="page">
-
-  <button class="like-button" (click)="on_click()"
-  [ngClass]="{ 'active': isActive }"></button>
-
+  <button *ngIf="check_ad()" class="delete-button" (click)="on_click_delete()"></button>
+  <div class="like-buttons">
+  <button *ngIf="!check_ad()" class="like-button" (click)="on_click_like()"
+  [ngClass]="{ 'active': isLikeActive }"></button>
+  <button *ngIf="!check_ad()" class="dislike-button" (click)="on_click_dislike()"
+  [ngClass]="{ 'active': isDislikeActive }"></button>
+    </div>
   <h1>{{ myAdData.title }}</h1>
 
   <div class="info">

@@ -49,11 +49,10 @@
     <h2 *ngSwitchCase=false class="acc-header" style="margin-top: 10vh;">Недавно просмотренные объявления</h2>
 <div *ngSwitchCase=false class="car">
     <div *ngFor="let ad of recently_viewed_ads!.data" class="add">
-      <h4>{{ ad.title }}</h4>
+      <a href="/advertisement/{{ad.id}}">{{ ad.title }}</a>
       <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
       <h5> Цена: {{ ad.price }} {{ ad.currency }}</h5>
       <h5> Год: {{ ad.year }}</h5>
-      <button (click)="open_ad(ad.id)">Подробнее</button>
     </div>
     </div>
 

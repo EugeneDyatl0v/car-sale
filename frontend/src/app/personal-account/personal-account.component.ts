@@ -4,7 +4,6 @@ import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {FormsModule} from "@angular/forms";
-import { DelAccService } from '../services/del-acc.service';
 import {DelAccComponent} from "../del-acc/del-acc.component";
 
 interface CarListing {
@@ -114,7 +113,7 @@ export class PersonalAccountComponent implements OnInit{
   recently_viewed_ads: RecentlyViewedApiResponse | null = null;
   imagePaths: { [key: string]: string } = {};
 
-  constructor(private http: HttpClient,  private router: Router, private authService: AuthService, private delAccService: DelAccService) {}
+  constructor(private http: HttpClient,  private router: Router, private authService: AuthService) {}
 
 
   ngOnInit() {

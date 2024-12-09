@@ -198,7 +198,7 @@ h4{
 }
 
 
-.like-button{
+.like-button, .delete-button, .dislike-button{
   align-self: end;
   border: 1px solid white;
   border-radius: 25px;
@@ -208,11 +208,21 @@ h4{
   background-position: center;
   background-repeat: no-repeat;
   transition: all 0.3s ease;
-  background-image: url("../../assets/trash.svg");
+  background-image: url("../../assets/heart.svg");
 }
 
-.like-button:hover{
+.delete-button{
   background-image: url("../../assets/trash.svg");
+  }
+
+.dislike-button{
+  background-image: url("../../assets/heartbreak.svg");
+  margin-left: 1vw;
+}
+
+
+.like-button:hover, .dislike-button:hover, .delete-button:hover{
+  background-image: url("../../assets/heart.svg");
   background-size: 50%, auto;
   background-position: center;
   background-repeat: no-repeat;
@@ -220,7 +230,14 @@ h4{
   filter: brightness(0.7);
 }
 
-.like-button.active:hover{
+.delete-button:hover{
+  background-image: url("../../assets/trash.svg");
+}
+
+.dislike-button:hover{
+  background-image: url("../../assets/heartbreak.svg");
+}
+.like-button.active:hover, .dislike-button.active:hover, .delete-button.active:hover{
   background-image: url("../../assets/heart-fill.svg");
   background-size: 50%, auto;
   background-position: center;
@@ -229,11 +246,28 @@ h4{
   filter: brightness(0.7);
 }
 
+.delete-button.active:hover{
+  background-image: url("../../assets/trash-fill.svg");
+}
 
-.like-button.active{
+.dislike-button.active:hover{
+  background-image: url("../../assets/heartbreak-fill.svg");
+}
+
+.like-button.active, .dislike-button.active, .delete-button.active{
   background-image: url("../../assets/heart-fill.svg");
   background-size: 50%, auto;
   background-position: center;
   background-repeat: no-repeat;
   transition: all 0.3s ease;
+}
+
+.dislike-button.active{
+  background-image: url("../../assets/heartbreak-fill.svg");
+}
+
+.like-buttons{
+  align-self: end;
+  display: flex;
+  justify-content: space-between;
 }
