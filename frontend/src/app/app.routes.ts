@@ -17,13 +17,6 @@ import {AdvertisementListComponent} from "./advertisement-list/advertisement-lis
 import {
   AdvertisementCreateComponent
 } from "./advertisement-create/advertisement-create.component";
-import {RecommendationComponent} from "./recommendation/recommendation.component";
-import {
-  FilterSettingsComponent
-} from "./filter-settings/filter-settings.component";
-import {
-  FilterSidebarComponent
-} from "./filter-sidebar/filter-sidebar.component";
 import {RecommendationPageComponent} from "./recommendation-page/recommendation-page.component";
 import {DraggableYearSelectorComponent} from "./draggable-year-selector/draggable-year-selector.component";
 
@@ -39,6 +32,5 @@ export const routes: Routes = [
   { path: 'advertisement/create', component:AdvertisementCreateComponent },
   { path: 'advertisement/:id', component:AdvertisementComponent },
   { path: 'advertisement-list', component:AdvertisementListComponent},
-  { path: 'recommendation', component:RecommendationComponent},
   { path: 'recommendation-page', component:RecommendationPageComponent}
 ];

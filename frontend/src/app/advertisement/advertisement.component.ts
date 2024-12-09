@@ -3,6 +3,7 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 
+//TODO: add back for like dislike delete
 interface ApiResponse {
   success: boolean;
   message: string;
@@ -275,4 +276,20 @@ export class AdvertisementComponent implements OnInit{
   on_click(){
     this.isActive = !this.isActive;
   }
+
+  decodeJWT(token: string): any {
+    try {
+        const [headerB64, payloadB64] = token.split('.');
+
+        const header = JSON.parse(atob(headerB64));
+        const payload = JSON.parse(atob(payloadB64));
+
+        return {
+            payload
+        };
+    } catch (error) {
+        throw new Error('Invalid JWT token');
+    }
+  }
+
 }

@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {FilterService} from "../services/filter.service";
 import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
@@ -92,7 +91,7 @@ export class AdvertisementListComponent {
   imagePaths: { [key: string]: string } = {};
   filterForm: FormGroup;
 
-  constructor(private filterService: FilterService, private http: HttpClient, private router: Router, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private router: Router, private fb: FormBuilder) {
     this.imagePaths = {};
     this.get_ads(1);
     this.filterForm = this.fb.group({
@@ -118,7 +117,7 @@ export class AdvertisementListComponent {
     });
   }
 
-
+  //TODO: add filters back
   get_ads(page: number) {
     const headers = new HttpHeaders(
       {
@@ -178,11 +177,6 @@ export class AdvertisementListComponent {
       }
     );
 
-  }
-
-  openModal() {
-
-    this.filterService.open('Это важное уведомление!');
   }
 
   onSearch() {
