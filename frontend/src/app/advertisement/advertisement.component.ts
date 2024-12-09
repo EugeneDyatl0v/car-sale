@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../services/auth.service";
+
 interface ApiResponse {
   success: boolean;
   message: string;
@@ -111,7 +111,7 @@ export class AdvertisementComponent implements OnInit{
   transmission: string = '';
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(){
@@ -182,7 +182,8 @@ export class AdvertisementComponent implements OnInit{
           this.body_type = setEnumValue(BodyType, this.myAdData.body_type);
           this.fuel_type = setEnumValue(FuelType, this.myAdData.fuel_type);
           this.transmission = setEnumValue(Transmission, this.myAdData.transmission);
-
+          console.log(response.data.ad)
+          console.log(this.myAdData)
         } else {
           console.error('Ошибка при получении данных пользователя');
         }

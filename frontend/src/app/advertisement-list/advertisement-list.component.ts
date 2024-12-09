@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {FilterService} from "../services/filter.service";
 import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
@@ -128,7 +127,8 @@ interface ModelsApiResponse {
   templateUrl: './advertisement-list.component.html',
   styleUrl: './advertisement-list.component.css'
 })
-export class AdvertisementListComponent implements OnInit{
+export class AdvertisementListComponent {
+  searchQuery: string = '';
   ads_per_page: number = 9;
   current_page: number = 1;
   pages_count: number = 1;
@@ -136,7 +136,7 @@ export class AdvertisementListComponent implements OnInit{
   imagePaths: { [key: string]: string } = {};
   filterForm: FormGroup;
 
-  constructor(private filterService: FilterService, private http: HttpClient, private router: Router, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private router: Router, private fb: FormBuilder) {
     this.imagePaths = {};
     this.get_ads(1);
     this.filterForm = this.fb.group({
@@ -273,7 +273,6 @@ export class AdvertisementListComponent implements OnInit{
       }
     );
   }
-
 
   setPage(page: number) {
     this.current_page = page;

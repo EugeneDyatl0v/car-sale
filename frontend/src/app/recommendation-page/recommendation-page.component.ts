@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf, NgSwitch, NgSwitchCase} from "@angular/common";
 import {DraggableYearSelectorComponent} from "../draggable-year-selector/draggable-year-selector.component";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 enum FuelType {
     PETROL = "Бензин",
@@ -34,12 +35,12 @@ enum DriveType {
 
 interface RecommendationList {
   brand: string[];
-  yearFrom: number;
-  yearTo: number;
-  fuelType: string[];
+  year_from: number;
+  year_to: number;
+  fuel_type: string[];
   transmission: string[];
-  bodyType: string[];
-  driveType: string[];
+  body_type: string[];
+  drive_type: string[];
 }
 
 interface BrandsApiResponse {
@@ -47,6 +48,14 @@ interface BrandsApiResponse {
   message: string;
   data: {
     brands: string[];
+  };
+}
+
+interface RecommendationCreateResponse {
+  success: boolean;
+  message: string;
+  data: {
+    recommendation: {};
   };
 }
 
@@ -59,12 +68,13 @@ interface BrandsApiResponse {
     NgSwitchCase,
     NgIf,
     NgForOf,
-    DraggableYearSelectorComponent
+    DraggableYearSelectorComponent,
+    HttpClientModule
   ],
   templateUrl: './recommendation-page.component.html',
   styleUrl: './recommendation-page.component.css'
 })
-export class RecommendationPageComponent {
+export class RecommendationPageComponent implements OnInit{
   pages = ['page1', 'page2', 'page3', 'page4'];
   currentPageIndex = 0;
   selectedBrands: string[] = [];
@@ -80,10 +90,19 @@ export class RecommendationPageComponent {
   drives: string[] = Object.values(DriveType);
   fuelTypes: string[] = Object.values(FuelType);
 
-  constructor(private http: HttpClient,) {
+  authToken: string | null = '';
+
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   ngOnInit(){
+    this.authToken = localStorage.getItem('authToken');
+
+    if (!this.authToken)
+    {
+      this.router.navigate(['/'])
+    }
+
     this.fetchBrandsData();
   }
 
@@ -137,27 +156,47 @@ export class RecommendationPageComponent {
   // Объект фильтров
   data: RecommendationList = {
     brand: this.selectedBrands,
-    yearFrom: this.selectedYearFrom,
-    yearTo: this.selectedYearTo,
-    fuelType: this.selectedFuelType,
+    year_from: this.selectedYearFrom,
+    year_to: this.selectedYearTo,
+    fuel_type: this.selectedFuelType,
     transmission: this.selectedTransmisson,
-    bodyType: this.selectedBodyType,
-    driveType: this.selectedDriveType
+    body_type: this.selectedBodyType,
+    drive_type: this.selectedDriveType
   };
 
   // Метод для обновления объекта фильтров
   updateFilters() {
-
+    //TODO: add back save recommendation
     this.data = {
       brand: this.selectedBrands,
-      yearFrom: this.selectedYearFrom,
-      yearTo: this.selectedYearTo,
-      fuelType: this.selectedFuelType,
+      year_from: this.selectedYearFrom,
+      year_to: this.selectedYearTo,
+      fuel_type: this.selectedFuelType,
       transmission: this.selectedTransmisson,
-      bodyType: this.selectedBodyType,
-      driveType: this.selectedDriveType
+      body_type: this.selectedBodyType,
+      drive_type: this.selectedDriveType
     };
-    console.log(this.data)
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.authToken}`
+      }
+    );
+
+    this.http.post<RecommendationCreateResponse>(`http://localhost:8008/recommendation/`, this.data, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          console.info('Рекомендации успешно сохранены')
+
+        } else {
+          console.error('Ошибка при получении данных пользователя');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
   }
 
   onBrandChange(car: string) {

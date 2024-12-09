@@ -4,7 +4,6 @@ import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {FormsModule} from "@angular/forms";
-import {DelAccComponent} from "../del-acc/del-acc.component";
 
 interface CarListing {
     id: string;
@@ -95,7 +94,6 @@ interface RecentlyViewedApiResponse {
     NgSwitch,
     NgSwitchCase,
     FormsModule,
-    DelAccComponent,
     NgForOf
   ],
   templateUrl: './personal-account.component.html',
