@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {HttpClient, HttpHeaders, HttpClientModule} from "@angular/common/http";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpClientModule,
+  HttpParams
+} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 
 interface ApiResponse {
@@ -300,13 +305,66 @@ export class AdvertisementComponent{
 
 
   on_click_delete(){
-    //удаление
+    const authToken = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    );
+
+    this.http.delete(
+      `http://localhost:8008/ad/delete?ad_id=${this.adId}`,
+      {
+        headers: headers
+      }
+    ).subscribe(
+      (response) => {
+        console.log('Delete')
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
+
+    this.router.navigate(['/']);
   }
 
   on_click_like(){
     this.isLikeActive = !this.isLikeActive;
     this.isDislikeActive = false;
     this.check_like()
+
+    const authToken = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    );
+
+    const queryParams = {
+      ad_id: this.adId,
+      report_type: 'LIKE'
+    };
+
+    this.http.post(
+      `http://localhost:8008/reports/`,
+      {
+        headers: headers,
+        params: queryParams
+      }
+    ).subscribe(
+      (response) => {
+        console.log('Like')
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
+
     console.log(this.isLike)
   }
 
@@ -315,6 +373,36 @@ export class AdvertisementComponent{
     this.isDislikeActive = !this.isDislikeActive;
     this.isLikeActive = false;
     this.check_like()
+
+    const authToken = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    );
+
+    const queryParams = {
+      ad_id: this.adId,
+      report_type: 'DISLIKE'
+    };
+
+    this.http.post(
+      `http://localhost:8008/reports/`,
+      {
+        headers: headers,
+        params: queryParams
+      }
+    ).subscribe(
+      (response) => {
+        console.log('Like')
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
+
     console.log(this.isLike)
   }
 
