@@ -1,12 +1,33 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpClientModule, HttpHeaders, HttpParams} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
-/*import {FilterSidebarComponent} from "../filter-sidebar/filter-sidebar.component";*/
 import {MatInput} from "@angular/material/input";
 import {FilterSidebarComponent} from "../filter-sidebar/filter-sidebar.component";
 
+
+interface QueryParams {
+    page: number;        // Обязательный параметр
+    per_page: number;    // Обязательный параметр
+    brand?: string|null;       // Опциональный параметр
+    model?: string|null;     // Опциональный параметр
+    drive?: string|null;
+    bodyType?: string|null;
+    fuelType?: string|null;
+    transmission?: string|null;
+    mileageFrom?: number|null;
+    mileageTo?:  number|null;
+    volumeFrom?: number|null;
+    volumeTo?: number|null;
+    powerFrom?: number|null;
+    powerTo?:  number|null;
+    yearFrom?: number|null;
+    yearTo?:  number|null;
+    priceFrom?: number|null;
+    priceTo?:  number|null;
+    currency?: string|null;
+}
 
 interface CarListing {
     id: string;
@@ -128,62 +149,67 @@ interface ModelsApiResponse {
   styleUrl: './advertisement-list.component.css'
 })
 export class AdvertisementListComponent {
-  searchQuery: string = '';
   ads_per_page: number = 9;
   current_page: number = 1;
   pages_count: number = 1;
   ads: ApiResponse | null = null;
   imagePaths: { [key: string]: string } = {};
-  filterForm: FormGroup;
 
   constructor(private http: HttpClient, private router: Router, private fb: FormBuilder) {
     this.imagePaths = {};
-    this.get_ads(1);
-    this.filterForm = this.fb.group({
-      brand: [''],
-      model: [''],
-      generation: [''],
-      bodyType: [''],
-      transmission: [''],
-      drive: [''],
-      fuelType: [''],
-      engineFrom: [''],
-      engineTo: [''],
-      yearFrom: [''],
-      yearTo: [''],
-      mileageFrom: [''],
-      mileageTo: [''],
-      volumeFrom: [''],
-      volumeTo: [''],
-      priceFrom: [''],
-      priceTo: [''],
-      credit: [false],
-      noMileageInRF: [false]
-    });
+    const query:QueryParams = {
+      page: this.current_page,
+      per_page: this.ads_per_page
+    };
+    this.get_ads(this.current_page, query);
   }
 
   ngOnInit(){
     this.fetchBrandsData();
-
   }
 
-  get_ads(page: number) {
+  get_ads(page: number, query:QueryParams) {
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
       }
     );
 
-    const queryParams = {
-      page: page,
-      per_page: this.ads_per_page
+    let params = new HttpParams()
+      .set('page', query.page.toString())
+      .set('per_page', query.per_page.toString());
+
+    // Функция для добавления параметров
+    const addParam = (key: string, value: any) => {
+      if (value !== null && value !== undefined) {
+        params = params.set(key, value.toString());
+      }
     };
 
+    // Добавляем опциональные параметры
+        if (query.brand) addParam('brand', query.brand);
+    if (query.model) addParam('model', query.model);
+    if (query.drive) addParam('drive', query.drive);
+    if (query.bodyType) addParam('bodyType', query.bodyType);
+    if (query.fuelType) addParam('fuelType', query.fuelType);
+    if (query.transmission) addParam('transmission', query.transmission);
+    if (query.mileageFrom !== null) addParam('mileageFrom', query.mileageFrom);
+    if (query.mileageTo !== null) addParam('mileageTo', query.mileageTo);
+    if (query.volumeFrom !== null) addParam('volumeFrom', query.volumeFrom);
+    if (query.volumeTo !== null) addParam('volumeTo', query.volumeTo);
+    if (query.powerFrom !== null) addParam('powerFrom', query.powerFrom);
+    if (query.powerTo !== null) addParam('powerTo', query.powerTo);
+    if (query.yearFrom !== null) addParam('yearFrom', query.yearFrom);
+    if (query.yearTo !== null) addParam('yearTo', query.yearTo);
+    if (query.priceFrom !== null) addParam('priceFrom', query.priceFrom);
+    if (query.priceTo !== null) addParam('priceTo', query.priceTo);
+    if (query.currency) addParam('currency', query.currency);
+    console.log(params)
     this.http.get<ApiResponse>(
       `http://localhost:8008/ad/`,
       {
         headers: headers,
-        params: queryParams
+        params: params
       }
     ).subscribe(
       (response) => {
@@ -276,7 +302,11 @@ export class AdvertisementListComponent {
 
   setPage(page: number) {
     this.current_page = page;
-    this.get_ads(this.current_page);
+    const queryParams = {
+      page: page,
+      per_page: this.ads_per_page
+    };
+    this.get_ads(this.current_page, queryParams);
   }
 
   open_ad(id: string) {
@@ -286,20 +316,134 @@ export class AdvertisementListComponent {
 
   brands: string[] = [];
   models: string[] = [];
-  bodyTypes: string[] = ["Седан", "Внедорожник", "Хетчбэк", "Универсал", "Купе", "Минивэн", "ГГрузовик"];
-  transmissions: string[] = ["Автомат", "Механика", "Робот"];
-  drives: string[] = ["Передний привод", "Задний привод", "Полный привод"];
-  fuelTypes: string[] = ["Бензин", "Дизель", "Электричество", "Гибрид", "Газ"];
-  selectedBrand: string = '';
-  selectedModel: string = '';
+  bodyTypes: string[] = Object.values(BodyType);
+  transmissions: string[] = Object.values(Transmission);
+  drives: string[] = Object.values(DriveType);
+  fuelTypes: string[] = Object.values(FuelType);
+  selectedBrand: string|null = null;
+  selectedModel: string|null = null;
+  selectedDriveType: string|null = null;
+  selectedBodyType: string|null = null;
+  selectedTransmission: string|null = null;
+  selectedFuelType: string|null = null;
+  mileageFrom: number|null = null;
+  mileageTo:  number|null = null;
+  volumeFrom: number|null = null;
+  volumeTo: number|null = null;
+  powerFrom: number|null = null;
+  powerTo:  number|null = null;
+  maxYear: number = new Date().getFullYear();
+  minYear: number = 1940;
+  yearFrom: number|null = null;
+  yearTo:  number|null = null;
+  priceFrom: number|null = null;
+  priceTo:  number|null = null;
+  selectedCurrency: string|null = null;
 
   onBrandChange() {
+    if (typeof this.selectedBrand === "string") {
+      this.selectedBrand = this.selectedBrand.charAt(0).toUpperCase() + this.selectedBrand.slice(1)
+    }
     this.fetchModelsData()
+    this.selectedModel = '';
     console.log(this.models)
   }
 
+  onKeyDownBrand(event: KeyboardEvent) {
+    // Проверка, является ли нажатая клавиша символом Backspace или Delete
+    if (event.key === 'Backspace' || event.key === 'Delete') {
+      return; // Разрешаем удаление
+    }
+
+    if (typeof this.selectedBrand === "string") {
+      // Получаем текущее значение поля ввода
+      const currentInputValue: string = this.selectedBrand;
+
+      // Проверяем, допустимо ли текущее значение
+      if (!this.brands.some(brand => brand.startsWith(currentInputValue.charAt(0).toUpperCase() + currentInputValue.slice(1)))) {
+        //event.preventDefault(); // Запрещаем ввод, если значение не соответствует
+        this.selectedBrand = currentInputValue.slice(0, -1);
+      }
+    }
+  }
+
+  onKeyDownModel(event: KeyboardEvent) {
+    // Проверка, является ли нажатая клавиша символом Backspace или Delete
+    if (event.key === 'Backspace' || event.key === 'Delete') {
+      return; // Разрешаем удаление
+    }
+
+    if (typeof this.selectedModel === "string") {
+      // Получаем текущее значение поля ввода
+      const currentInputValue: string = this.selectedModel;
+
+      // Проверяем, допустимо ли текущее значение
+      if (!this.models.some(model => model.startsWith(currentInputValue.charAt(0).toUpperCase() + currentInputValue.slice(1)))) {
+        //event.preventDefault(); // Запрещаем ввод, если значение не соответствует
+        this.selectedModel = currentInputValue.slice(0, -1);
+      }
+    }
+  }
+
+
+
   onSubmit(): void {
+    if (this.selectedBrand === ''){
+      this.selectedBrand = null;
+    }
+    if (this.selectedModel === ''){
+      this.selectedModel = null;
+    }
+    if (this.selectedModel !== null && this.selectedBrand === null){
+      this.selectedModel = null;
+    }
+
+    const query:QueryParams = {
+      page: 1,
+      per_page: this.ads_per_page,
+      brand: this.selectedBrand,       // Опциональный параметр
+      model: this.selectedModel,     // Опциональный параметр
+      drive: this.selectedDriveType,
+      bodyType: this.selectedBodyType,
+      fuelType: this.selectedFuelType,
+      transmission: this.selectedTransmission,
+      mileageFrom: this.mileageFrom,
+      mileageTo:  this.mileageTo,
+      volumeFrom: this.volumeFrom,
+      volumeTo: this.volumeTo,
+      powerFrom: this.powerFrom,
+      powerTo:  this.powerTo,
+      yearFrom: this.yearFrom,
+      yearTo:  this.yearTo,
+      priceFrom: this.priceFrom,
+      priceTo:  this.priceTo,
+      currency: this.selectedCurrency
+    };
+
+    this.get_ads(1, query);
+
     console.log(this.selectedBrand); // Output form data
     console.log(this.selectedModel);
+    console.log(this.selectedDriveType);
+    console.log(this.selectedBodyType);
+    console.log(this.selectedTransmission);
+    console.log(this.selectedFuelType);
+    console.log(this.mileageFrom);
+    console.log(this.mileageTo);
+    console.log(this.volumeFrom)
+    console.log(this.volumeTo);
+    console.log(this.powerFrom);
+    console.log(this.powerTo);
+    console.log(this.yearFrom);
+    console.log(this.yearTo);
+
+    console.log(this.priceFrom);
+    console.log(this.priceTo);
+
+    console.log(this.selectedCurrency);
+
+
   }
+
+  protected readonly Object = Object;
 }

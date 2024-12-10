@@ -14,6 +14,8 @@
       placeholder="Выберите марку"
       [(ngModel)]="selectedBrand"
       (change)="onBrandChange()"
+      (keydown)="onKeyDownBrand($event)"
+      [value]="selectedBrand"
     />
     <datalist id="brand_options">
       <option *ngFor="let value of brands" [value]="value">{{value}}</option>
@@ -26,78 +28,75 @@
       list="model_options"
       placeholder="Выберите модель"
       [(ngModel)]="selectedModel"
+      [value]="selectedModel"
+      (keydown)="onKeyDownModel($event)"
     />
     <datalist id="model_options">
       <option *ngFor="let value of models" [value]="value">{{value}}</option>
     </datalist>
     </div>
     <div class="column">
-      <select >
-          <option value="" disabled selected >Выберите привод</option>
-        <option >Передний привод</option>
-        <option>Задний привод</option>
-        <option>Полный привод</option>
+      <select [(ngModel)]="selectedDriveType">
+          <option value="null">Выберите привод</option>
+          <option *ngFor="let value of drives" [value]="value">{{value}}</option>
       </select>
     </div>
   </div>
 
     <div class="row">
       <div class="column">
-        <select >
-          <option value="" disabled selected hidden>Выберите тип кузова</option>
-          <option> Седан</option>
-          <option> Внедорожник</option>
-          <option> Хетчбэк</option>
-          <option> Универсал</option>
-          <option> Купе</option>
-          <option> Минивэн</option>
+        <select [(ngModel)]="selectedBodyType">
+          <option value="null">Выберите тип кузова</option>
+          <option *ngFor="let value of bodyTypes" [value]="value">{{value}}</option>
       </select>
       </div>
       <div class="column">
-        <select >
-          <option value="" disabled selected hidden>Выберите тип топлива</option>
-          <option >Бензин</option>
-          <option> Дизель</option>
-          <option> Электричество</option>
-          <option> Гибрид</option>
-          <option> Газ
-          </option>
+        <select [(ngModel)]="selectedFuelType">
+          <option value="null">Выберите тип топлива</option>
+          <option *ngFor="let value of fuelTypes" [value]="value">{{value}}</option>
       </select>
       </div>
       <div class="column">
-              <select>
-        <option value="" disabled selected hidden>Выберите КПП</option>
-                <option>Автомат</option>
-                <option> Механика</option>
-                <option> Робот
-          </option>
+              <select [(ngModel)]="selectedTransmission">
+        <option value="null">Выберите КПП</option>
+          <option *ngFor="let value of transmissions" [value]="value">{{value}}</option>
       </select>
       </div>
     </div>
   <div class="row">
     <div class="column-from-to">
-      <input class="from-select" placeholder="Пробег от" type="number">
-      <input class="to-select" placeholder="Пробег до" type="number">
+      <input class="from-select" placeholder="Пробег от" type="number" min="0" [(ngModel)]="mileageFrom">
+      <input class="to-select" placeholder="Пробег до" type="number" min="0" [(ngModel)]="mileageTo">
     </div>
     <div class="column-from-to">
-      <input class="from-select" placeholder="Год от" type="number">
-      <input class="to-select" placeholder="Год до" type="number">
+      <input class="from-select" placeholder="Объём от" type="number" min="0" max="15" step="0.1" [(ngModel)]="volumeFrom">
+      <input class="to-select" placeholder="Объём до" type="number" min="0" max="15" step="0.1" [(ngModel)]="volumeTo">
     </div>
     <div class="column-from-to">
-      <input class="from-select" placeholder="Цена от" type="number">
-      <input class="to-select" placeholder="Цена до" type="number">
+      <input class="from-select" placeholder="Мощность от" type="number" min="0" [(ngModel)]="powerFrom">
+      <input class="to-select" placeholder="Мощность до" type="number" min="0" [(ngModel)]="powerTo">
     </div>
   </div>
 
   <div class="row">
-    <div class="column-from-to">
-      <input class="from-select" placeholder="Объём от" type="number">
-      <input class="to-select" placeholder="Объём до" type="number">
+
+        <div class="column-from-to">
+      <input class="from-select" placeholder="Год от" type="number" min="{{minYear}}" max="{{maxYear}}" [(ngModel)]="yearFrom">
+      <input class="to-select" placeholder="Год до" type="number" min="{{minYear}}" max="{{maxYear}}" [(ngModel)]="yearTo">
     </div>
     <div class="column-from-to">
-      <input class="from-select" placeholder="Мощность от" type="number">
-      <input class="to-select" placeholder="Мощность до" type="number">
+      <input class="from-select" placeholder="Цена от" type="number" min="0" [(ngModel)]="priceFrom">
+      <input class="to-select" placeholder="Цена до" type="number" min="0" [(ngModel)]="priceTo">
     </div>
+    <div class="column">
+              <select [(ngModel)]="selectedCurrency">
+        <option value=null>Выберите валюту</option>
+                <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="RUB">RUB</option>
+            <option value="BYN">BYN</option>
+      </select>
+      </div>
   </div>
       <button type="submit" class="submit-btn" (click)="onSubmit()">Подтвердить</button>
 
@@ -107,11 +106,10 @@
 
   <div class="grid-container" >
     <div *ngFor="let ad of ads!.data.list" class="add">
-      <h4>{{ ad.brand }} {{ ad.model }}</h4>
-      <img [src]="imagePaths[ad.id]" alt="main-photo" width="360" height="240">
-      <h5> Цена: {{ ad.price }} {{ ad.currency }}</h5>
-      <h5> Год: {{ ad.year }}</h5>
-      <button (click)="open_ad(ad.id)">Подробнее</button>
+      <a href="/advertisement/{{ad.id}}">{{ ad.title }}</a>
+      <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
+      <h3> Цена: {{ ad.price }} {{ ad.currency }}</h3>
+      <h3> Год: {{ ad.year }}</h3>
     </div>
   </div>
 

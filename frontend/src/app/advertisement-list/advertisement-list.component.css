@@ -79,10 +79,16 @@
   grid-auto-rows: 50vh; /* Высота каждой строки (дивов) 100px */
   gap: 30px; /* Отступы между дивами (если нужно) */
   width: 100%; /* Ширина таблицы будет равна ширине родителя */
+  padding-bottom: 100px;
 }
 
+
+
 .add {
-  margin-top: 2vh;
+    height: 55vh;
+  min-width: 25vw;
+  width: auto;
+  margin: 2vh 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,7 +162,6 @@
 .pagination span button:hover {
   background-color: #ddd; /* Цвет при наведении для кнопок страниц */
 }
-
 
 
 
@@ -287,4 +292,18 @@ select {
 .submit-btn:hover {
     background-color: #FFFFFF;
     border-color: rgba(0, 0, 0, 0.19);
+}
+
+img{
+  margin: 4vh 0;
+}
+
+a{
+  color: white;
+  font-size: x-large;
+  text-decoration: none;
+}
+
+a:hover{
+  filter: brightness(0.7);
 }

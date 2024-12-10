@@ -95,7 +95,7 @@ enum DriveType {
   templateUrl: './advertisement.component.html',
   styleUrl: './advertisement.component.css'
 })
-export class AdvertisementComponent implements OnInit{
+export class AdvertisementComponent{
   adId: string | null = null;
   myAdData: Partial<ApiResponse['data']['ad']> = {};
   info: string | undefined = '';

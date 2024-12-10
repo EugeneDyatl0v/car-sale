@@ -21,7 +21,7 @@ h1, h2{
   flex-direction: column;
   width: 850px;
   height: auto;
-  border: 3px solid white;
+
   margin-bottom: 10%;
   justify-content: center;
 }
@@ -39,7 +39,6 @@ h1, h2{
   height: auto;
   flex-wrap: wrap;
   align-items: center;
-  border: 1px solid red;
   max-height: none;
 }
 
@@ -83,6 +82,7 @@ h1, h2{
   margin-left: 20px;
   text-align: center;
   border: 1px solid white;
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
   padding-top: 20px;
@@ -126,7 +126,6 @@ p{
 }
 
 .seller{
-  border: 3px solid white;
   margin-top: 5vh;
   width: 95vw;
 }

@@ -51,8 +51,8 @@
     <div *ngFor="let ad of recently_viewed_ads!.data" class="add">
       <a href="/advertisement/{{ad.id}}">{{ ad.title }}</a>
       <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
-      <h5> Цена: {{ ad.price }} {{ ad.currency }}</h5>
-      <h5> Год: {{ ad.year }}</h5>
+      <h3> Цена: {{ ad.price }} {{ ad.currency }}</h3>
+      <h3> Год: {{ ad.year }}</h3>
     </div>
     </div>
 

@@ -253,3 +253,12 @@ input:hover {
 img{
   margin: 4vh 0;
 }
+
+a{
+  font-size: x-large;
+  text-decoration: none;
+}
+
+a:hover{
+  filter: brightness(0.7);
+}
