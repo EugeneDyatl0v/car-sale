@@ -14,7 +14,7 @@ body {
 .page{
     background: rgb(0,0,0,7);
     height: auto;
-    min-height: 87.6vh;
+    min-height: 87.5vh;
     display: flex;
     flex-direction: column;
     padding: 2rem;

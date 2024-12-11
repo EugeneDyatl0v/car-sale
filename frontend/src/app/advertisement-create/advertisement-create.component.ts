@@ -125,6 +125,7 @@ export class AdvertisementCreateComponent implements OnInit{
   brands: string[] = [];
   models: string[] = [];
   files: FileData[] = [];
+  email: string = '';
 
   constructor(
     private http: HttpClient,
@@ -183,6 +184,7 @@ export class AdvertisementCreateComponent implements OnInit{
           this.adForm.get('seller_name')?.setValue(userData.user_name);
           this.adForm.get('phone')?.setValue(userData.phone_number);
           this.adForm.get('email')?.setValue(userData.email);
+          this.email = userData.email;
         } else {
           console.error('Ошибка при получении данных пользователя');
         }

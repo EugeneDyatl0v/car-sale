@@ -4,7 +4,6 @@ import {HttpClient, HttpClientModule, HttpHeaders, HttpParams} from "@angular/co
 import {NgForOf, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {MatInput} from "@angular/material/input";
-import {FilterSidebarComponent} from "../filter-sidebar/filter-sidebar.component";
 
 
 interface QueryParams {
@@ -140,7 +139,6 @@ interface ModelsApiResponse {
     NgForOf,
     MatInput,
     ReactiveFormsModule,
-    FilterSidebarComponent,
     NgIf
   ],
   templateUrl: './advertisement-list.component.html',

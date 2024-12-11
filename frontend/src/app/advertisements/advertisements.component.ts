@@ -7,7 +7,6 @@ import {
 } from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
-import * as uuid from "uuid";
 
 
 interface CarListing {
@@ -107,6 +106,7 @@ export class AdvertisementsComponent {
       } else if (this.pageType == 'personal'){
         this.get_personal_ads();
       }
+      this.isEmpty = this.ads.length === 0;
     });
   }
 
@@ -135,10 +135,13 @@ export class AdvertisementsComponent {
           this.ads.forEach(ad =>{
             this.check_like_status(ad.id)
           })
-          this.isEmpty = this.ads.length === 0;
           this.ads.forEach(ad => {
               this.loadImage(ad.id);
             });
+          console.log(this.ads)
+          console.log(this.isEmpty)
+          this.isEmpty = this.ads.length === 0;
+          console.log(this.isEmpty)
         } else {
           console.error('Ошибка при получении изображений');
         }
@@ -174,11 +177,23 @@ export class AdvertisementsComponent {
           (response) => {
             if (response.success) {
               if (response.data.report.report_type != 'LIKE'){
+                console.log("in");
+                console.log(this.ads)
+                console.log(id)
                 this.ads = this.ads
                   .filter(car => car.id !== id)
+                console.log(this.ads)
+                console.log('out')
               }
-            } else this.ads = this.ads
+            } else {
+              console.log('inn')
+              console.log(this.ads)
+              console.log(id)
+              this.ads = this.ads
                   .filter(car => car.id !== id)
+              console.log(this.ads)
+              console.log('outt')
+            }
           },
           (error) => {
             console.error('Ошибка HTTP-запроса:', error);
@@ -221,6 +236,7 @@ export class AdvertisementsComponent {
   }
 
   loadImage(id: string) {
+    console.log(0)
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
