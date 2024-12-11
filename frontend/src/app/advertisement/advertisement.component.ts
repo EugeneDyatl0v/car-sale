@@ -17,12 +17,12 @@ interface ApiResponse {
       title: string;
       description: string;
       price: number;
-      currency: 'USD' | 'EUR' | 'RUB' | 'BYN'; // Ограничение значений для валюты
+      currency: 'USD' | 'EUR' | 'RUB' ; // Ограничение значений для валюты
       brand: string;
       model: string;
       year: number;
       mileage: number;
-      fuel_type: 'PETROL' | 'DIESEL' | 'ELECTRIC' | 'HYBRID' | 'GAS'; // Ограничение значений для типа топлива
+      fuel_type: 'PETROL' | 'DIESEL' | 'ELECTRIC' | 'HYBRID'; // Ограничение значений для типа топлива
       transmission: 'MANUAL' | 'AUTOMATIC' | 'CVT'; // Ограничение значений для трансмиссии
       body_type: 'SEDAN' | 'SUV' | 'HATCHBACK' | 'WAGON' | 'COUPE'; // Ограничение значений для типа кузова
       engine_capacity: number;
@@ -58,12 +58,21 @@ interface response200 {
   message: string;
 }
 
+interface ReportResponse {
+  success: boolean;
+  message: string;
+  data: {
+    report: {
+      report_type: string
+    }
+  };
+}
+
 enum FuelType {
     PETROL = "Бензин",
     DIESEL = "Дизель",
     ELECTRIC = "Электричество",
-    HYBRID = "Гибрид",
-    GAS = "Газ"
+    HYBRID = "Гибрид"
 }
 
 enum Transmission {
@@ -114,7 +123,7 @@ export class AdvertisementComponent{
   fuel_type: string = '';
   drive_type: string = '';
   transmission: string = '';
-
+  authToken: string|null = null;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
   }
@@ -125,8 +134,48 @@ export class AdvertisementComponent{
       if (this.adId) {
         this.fetchAdData(this.adId);
         this.add_ad_to_recently_viewed();
+        this.check_like_status()
       }
     });
+  }
+
+  check_like_status(){
+    const authToken = localStorage.getItem('authToken');
+
+        if (!authToken)
+        {
+          this.router.navigate(['/authorize'])
+        }
+
+
+        const headers = new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          }
+        );
+
+        this.http.get<ReportResponse>(
+          `http://localhost:8008/reports/?ad_id=${this.adId}`,
+          {
+            headers: headers
+          }
+        ).subscribe(
+          (response) => {
+            if (response.success) {
+              if (response.data.report.report_type == 'LIKE'){
+                this.isLikeActive = true;
+              }
+              else if (response.data.report.report_type == 'DISLIKE') {
+                this.isDislikeActive = true;
+              }
+            } else {
+            }
+          },
+          (error) => {
+            console.error('Ошибка HTTP-запроса:', error);
+          }
+        );
   }
 
   add_ad_to_recently_viewed(){
@@ -167,6 +216,12 @@ export class AdvertisementComponent{
   }
 
   fetchAdData(id: string) {
+    this.authToken = localStorage.getItem('authToken');
+
+    if (!this.authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
 
     const headers = new HttpHeaders(
       {
@@ -187,8 +242,7 @@ export class AdvertisementComponent{
           this.body_type = setEnumValue(BodyType, this.myAdData.body_type);
           this.fuel_type = setEnumValue(FuelType, this.myAdData.fuel_type);
           this.transmission = setEnumValue(Transmission, this.myAdData.transmission);
-          console.log(response.data.ad)
-          console.log(this.myAdData)
+
         } else {
           console.error('Ошибка при получении данных пользователя');
         }
@@ -270,21 +324,14 @@ export class AdvertisementComponent{
 
   check_ad(){
     const authToken = localStorage.getItem('authToken');
-    if (typeof authToken === "string") {
-      let payload = this.decodeJWT(authToken);
-      console.log(payload.payload.user_info.email);
+      let payload = this.decodeJWT(authToken!);
       return payload.payload.user_info.email === this.myAdData.seller_email;
-    } else {
-      return false
-    }
   }
 
   decodeJWT(token: string): any {
     try {
         const [headerB64, payloadB64] = token.split('.');
-        const header = JSON.parse(atob(headerB64));
         const payload = JSON.parse(atob(payloadB64));
-        console.log(payload);
         return {
             payload
         };
@@ -294,14 +341,9 @@ export class AdvertisementComponent{
     }
   }
 
-  protected readonly BodyType = BodyType;
-  protected readonly Transmission = Transmission;
-  protected readonly DriveType = DriveType;
-  protected readonly FuelType = FuelType;
 
   isLikeActive: boolean = false;
   isDislikeActive: boolean = false;
-  isLike:boolean|null = null;
 
 
   on_click_delete(){
@@ -334,7 +376,6 @@ export class AdvertisementComponent{
   on_click_like(){
     this.isLikeActive = !this.isLikeActive;
     this.isDislikeActive = false;
-    this.check_like()
 
     const authToken = localStorage.getItem('authToken');
 
@@ -345,16 +386,11 @@ export class AdvertisementComponent{
       }
     );
 
-    const queryParams = {
-      ad_id: this.adId,
-      report_type: 'LIKE'
-    };
-
     this.http.post(
-      `http://localhost:8008/reports/`,
+      `http://localhost:8008/reports/?ad_id=${this.adId}&report_type=LIKE`,
+      {},
       {
-        headers: headers,
-        params: queryParams
+        headers: headers
       }
     ).subscribe(
       (response) => {
@@ -365,14 +401,12 @@ export class AdvertisementComponent{
       }
     );
 
-    console.log(this.isLike)
   }
 
 
   on_click_dislike(){
     this.isDislikeActive = !this.isDislikeActive;
     this.isLikeActive = false;
-    this.check_like()
 
     const authToken = localStorage.getItem('authToken');
 
@@ -383,16 +417,11 @@ export class AdvertisementComponent{
       }
     );
 
-    const queryParams = {
-      ad_id: this.adId,
-      report_type: 'DISLIKE'
-    };
-
     this.http.post(
-      `http://localhost:8008/reports/`,
+      `http://localhost:8008/reports/?ad_id=${this.adId}&report_type=DISLIKE`,
+      {},
       {
-        headers: headers,
-        params: queryParams
+        headers: headers
       }
     ).subscribe(
       (response) => {
@@ -403,16 +432,6 @@ export class AdvertisementComponent{
       }
     );
 
-    console.log(this.isLike)
   }
 
-  check_like(){
-    if (this.isDislikeActive == this.isLikeActive){
-      this.isLike = null;
-    } else if (this.isLikeActive){
-      this.isLike = true;
-    } else if (this.isDislikeActive){
-      this.isLike = false;
-    }
-  }
 }

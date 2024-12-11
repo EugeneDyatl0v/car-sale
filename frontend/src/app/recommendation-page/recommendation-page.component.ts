@@ -8,8 +8,7 @@ enum FuelType {
     PETROL = "Бензин",
     DIESEL = "Дизель",
     ELECTRIC = "Электричество",
-    HYBRID = "Гибрид",
-    GAS = "Газ"
+    HYBRID = "Гибрид"
 }
 
 enum Transmission {
@@ -23,8 +22,7 @@ enum BodyType {
     SUV = "Внедорожник",
     HATCHBACK = "Хетчбэк",
     WAGON = "Универсал",
-    COUPE = "Купе",
-    MINIVAN = "Минивэн"
+    COUPE = "Купе"
 }
 
 enum DriveType {
@@ -89,6 +87,7 @@ export class RecommendationPageComponent implements OnInit{
   transmissions: string[] = Object.values(Transmission);
   drives: string[] = Object.values(DriveType);
   fuelTypes: string[] = Object.values(FuelType);
+  error: boolean = false;
 
   authToken: string | null = '';
 
@@ -100,7 +99,7 @@ export class RecommendationPageComponent implements OnInit{
 
     if (!this.authToken)
     {
-      this.router.navigate(['/'])
+      this.router.navigate(['/authorization'])
     }
 
     this.fetchBrandsData();
@@ -147,8 +146,14 @@ export class RecommendationPageComponent implements OnInit{
   }
 
   save(){
-    this.updateFilters();
-    console.log('ok');
+    if (this.selectedYearFrom > this.selectedYearTo){
+      this.error = true;
+    } else {
+      this.error = false
+      this.updateFilters();
+      console.log('ok');
+      this.router.navigate(['/'])
+    }
   }
 
   // Выбранные значения
@@ -164,19 +169,25 @@ export class RecommendationPageComponent implements OnInit{
     drive_type: this.selectedDriveType
   };
 
+  change_data(value:string, enumType: { [key: string]: string }){
+    const entity = Object.entries(enumType).find(([key, val]) => val === value)!;
+    return  entity[0]
+  }
+
   // Метод для обновления объекта фильтров
   updateFilters() {
     //TODO: add back save recommendation
+    //const entity = Object.entries(Transmission).find(([key, val]) => val === query.transmission);
+    //  addParam('transmission', entity ? entity[0] : undefined);
     this.data = {
       brand: this.selectedBrands,
       year_from: this.selectedYearFrom,
       year_to: this.selectedYearTo,
-      fuel_type: this.selectedFuelType,
-      transmission: this.selectedTransmisson,
-      body_type: this.selectedBodyType,
-      drive_type: this.selectedDriveType
+      fuel_type: this.selectedFuelType.map(el => this.change_data(el, FuelType)),
+      transmission: this.selectedTransmisson.map(el => this.change_data(el, Transmission)),
+      body_type: this.selectedBodyType.map(el => this.change_data(el, BodyType)),
+      drive_type: this.selectedDriveType.map(el => this.change_data(el, DriveType))
     };
-
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
@@ -206,7 +217,6 @@ export class RecommendationPageComponent implements OnInit{
     } else {
       this.selectedBrands.splice(index, 1);
     }
-    console.log(this.selectedBrands)
   }
 
   onFuelTypeChange(car: string) {
@@ -216,7 +226,6 @@ export class RecommendationPageComponent implements OnInit{
     } else {
       this.selectedFuelType.splice(index, 1);
     }
-    console.log(this.selectedFuelType)
   }
 
   onTransmissionChange(car: string) {
@@ -226,7 +235,6 @@ export class RecommendationPageComponent implements OnInit{
     } else {
       this.selectedTransmisson.splice(index, 1);
     }
-    console.log(this.selectedTransmisson)
   }
 
   onBodyTypeChange(car: string) {
@@ -236,7 +244,6 @@ export class RecommendationPageComponent implements OnInit{
     } else {
       this.selectedBodyType.splice(index, 1);
     }
-    console.log(this.selectedBodyType)
   }
 
   onDriveTypeChange(car: string) {
@@ -246,7 +253,6 @@ export class RecommendationPageComponent implements OnInit{
     } else {
       this.selectedDriveType.splice(index, 1);
     }
-    console.log(this.selectedDriveType)
   }
 
 

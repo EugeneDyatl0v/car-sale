@@ -121,6 +121,7 @@ export class PersonalAccountComponent implements OnInit{
 
   save(){
     this.edit = false;
+    //логика сохранения userName, userLastName, email, phoneNumber
     console.log(this.phoneNumber);
   }
 
@@ -263,11 +264,21 @@ export class PersonalAccountComponent implements OnInit{
 
   }
 
-  open_ad(id: string) {
-    this.router.navigate([`/advertisement/${id}`]);
-  }
 
   add_ad(){
     this.router.navigate([`/advertisement/create`]);
+  }
+
+  my_ads(){
+    this.router.navigate(['/advertisements', 'personal']);
+  }
+
+  liked_ads(){
+    this.router.navigate(['advertisements', 'liked']);
+  }
+
+  formatPrice(price: number): string {
+    // Преобразуем число в строку и разбиваем на тройки с конца
+    return price.toString().replace(/\B(?=(\d{3})+(?!))/g, ' ');
   }
 }

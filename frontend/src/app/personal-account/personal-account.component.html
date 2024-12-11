@@ -41,18 +41,30 @@
       </table>
         <button class="submit-btn" *ngSwitchCase=true (click)=save()>Сохранить</button>
     <div *ngSwitchCase=false class="buttons">
-        <button class="ads-btn">Мои объявления</button>
-        <button class="ads-btn">Понравившиеся объявления</button>
+        <button class="ads-btn" (click)="my_ads()">Мои объявления</button>
+        <button class="ads-btn" (click)="liked_ads()">Понравившиеся объявления</button>
         <button class="ads-btn" (click)="add_ad()">Добавить объявлениe</button>
     </div>
 
     <h2 *ngSwitchCase=false class="acc-header" style="margin-top: 10vh;">Недавно просмотренные объявления</h2>
 <div *ngSwitchCase=false class="car">
     <div *ngFor="let ad of recently_viewed_ads!.data" class="add">
-      <a href="/advertisement/{{ad.id}}">{{ ad.title }}</a>
-      <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
-      <h3> Цена: {{ ad.price }} {{ ad.currency }}</h3>
-      <h3> Год: {{ ad.year }}</h3>
+      <a href="/advertisement/{{ad.id}}" class="link">{{ ad.title }}</a>
+      <div class="image-container">
+        <img [src]="imagePaths[ad.id]" alt="main-photo" class="add-image">
+    </div>
+      <div class="info">
+        <table>
+          <tr style="border: none">
+            <td style="padding: 0"><h3>Цена:</h3></td>
+            <td style="padding: 0"><h3>{{formatPrice( ad.price) }} {{ ad.currency }}</h3></td>
+          </tr>
+          <tr style="border: none">
+            <td style="text-align: right"><h3>Год:</h3></td>
+            <td style="padding: 0"><h3>{{ ad.year }}</h3></td>
+          </tr>
+        </table>
+        </div>
     </div>
     </div>
 

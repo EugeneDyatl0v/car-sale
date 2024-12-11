@@ -76,7 +76,7 @@
   margin: 3vh 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 колонки одинаковой ширины */
-  grid-auto-rows: 50vh; /* Высота каждой строки (дивов) 100px */
+  grid-auto-rows: auto; /* Высота каждой строки (дивов) 100px */
   gap: 30px; /* Отступы между дивами (если нужно) */
   width: 100%; /* Ширина таблицы будет равна ширине родителя */
   padding-bottom: 100px;
@@ -85,16 +85,36 @@
 
 
 .add {
-    height: 55vh;
-  min-width: 25vw;
+    height: auto;
   width: auto;
   margin: 2vh 0;
   display: flex;
-  justify-content: center;
   align-items: center;
     flex-direction: column;
   border: 1px solid white;
   border-radius: 25px;/* Добавим границу для визуализации */
+}
+
+.add-image {
+    width: 80%; /* Занимает всю доступную ширину */
+    height: auto; /* Сохраняет пропорции изображения */
+}
+
+.image-container {
+    display: flex; /* Включаем Flexbox для контейнера изображения */
+    align-items: center; /* Центрируем изображение по вертикали */
+    justify-content: center; /* Центрируем изображение по горизонтали */
+    height: 100%; /* Занимает всю доступную высоту */
+    width: 100%;
+}
+
+.link{
+  margin: 2vh 0;
+}
+
+.info{
+  margin-top: auto;
+  margin-bottom: 2vh;
 }
 
 .pagination {
@@ -306,4 +326,8 @@ a{
 
 a:hover{
   filter: brightness(0.7);
+}
+
+h3{
+  margin: 0;
 }

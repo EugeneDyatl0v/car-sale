@@ -1,6 +1,6 @@
 <section class="page">
 <ng-container [ngSwitch]="currentPage">
-  <div *ngSwitchCase="'page3'" class="select-page">
+  <div *ngSwitchCase="'page1'" class="select-page">
 
 <h3>Выберите модели автомобилей</h3>
 <div class="car-selector">
@@ -33,7 +33,7 @@
   </div>
 
   <!-- Третья страница -->
-  <div *ngSwitchCase="'page1'" class="select-page">
+  <div *ngSwitchCase="'page3'" class="select-page">
         <h3>Выберите тип привода</h3>
 <div class="car-selector">
   <div
@@ -83,7 +83,7 @@
     </div>
 </div>
   </div>
-
+      <h2 *ngIf="error">Минимальный год выпуска не должен превышать максимальный год выпуска</h2>
       <div class="buttons">
         <button *ngIf="currentPageIndex !== 0" class="ads-btn" (click)="prevPage()" >Назад</button>
         <button *ngIf="currentPageIndex !== pages.length - 1" class="ads-btn" (click)="nextPage()" >Далее</button>

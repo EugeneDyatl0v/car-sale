@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClient, HttpClientModule, HttpHeaders, HttpParams} from "@angular/common/http";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {MatInput} from "@angular/material/input";
 import {FilterSidebarComponent} from "../filter-sidebar/filter-sidebar.component";
@@ -41,7 +41,7 @@ interface CarListing {
     mileage: number;
     fuel_type: 'DIESEL' | 'PETROL' | 'ELECTRIC' | 'HYBRID'; // добавьте другие возможные значения
     transmission: 'MANUAL' | 'AUTOMATIC' | 'ROBOT';
-    body_type: 'SUV' | 'SEDAN' | 'HATCHBACK' | 'WAGON' | 'MINIVAN'; // добавьте другие типы кузова
+    body_type: 'SUV' | 'SEDAN' | 'HATCHBACK' | 'WAGON' | 'COUPE'; // добавьте другие типы кузова
     engine_capacity: number;
     horse_power: number;
     drive_type: 'RWD' | 'FWD' | 'AWD';
@@ -91,8 +91,7 @@ enum FuelType {
     PETROL = "Бензин",
     DIESEL = "Дизель",
     ELECTRIC = "Электричество",
-    HYBRID = "Гибрид",
-    GAS = "Газ"
+    HYBRID = "Гибрид"
 }
 
 enum Transmission {
@@ -106,8 +105,7 @@ enum BodyType {
     SUV = "Внедорожник",
     HATCHBACK = "Хетчбэк",
     WAGON = "Универсал",
-    COUPE = "Купе",
-    MINIVAN = "Минивэн"
+    COUPE = "Купе"
 }
 
 enum DriveType {
@@ -140,10 +138,10 @@ interface ModelsApiResponse {
     FormsModule,
     HttpClientModule,
     NgForOf,
-    /*FilterSidebarComponent,*/
     MatInput,
     ReactiveFormsModule,
-    FilterSidebarComponent
+    FilterSidebarComponent,
+    NgIf
   ],
   templateUrl: './advertisement-list.component.html',
   styleUrl: './advertisement-list.component.css'
@@ -154,6 +152,7 @@ export class AdvertisementListComponent {
   pages_count: number = 1;
   ads: ApiResponse | null = null;
   imagePaths: { [key: string]: string } = {};
+  isEmpty: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private fb: FormBuilder) {
     this.imagePaths = {};
@@ -175,9 +174,11 @@ export class AdvertisementListComponent {
       }
     );
 
+
     let params = new HttpParams()
       .set('page', query.page.toString())
       .set('per_page', query.per_page.toString());
+
 
     // Функция для добавления параметров
     const addParam = (key: string, value: any) => {
@@ -185,41 +186,52 @@ export class AdvertisementListComponent {
         params = params.set(key, value.toString());
       }
     };
-
     // Добавляем опциональные параметры
-        if (query.brand) addParam('brand', query.brand);
+    if (query.brand) addParam('brand', query.brand);
     if (query.model) addParam('model', query.model);
-    if (query.drive) addParam('drive', query.drive);
-    if (query.bodyType) addParam('bodyType', query.bodyType);
-    if (query.fuelType) addParam('fuelType', query.fuelType);
-    if (query.transmission) addParam('transmission', query.transmission);
-    if (query.mileageFrom !== null) addParam('mileageFrom', query.mileageFrom);
-    if (query.mileageTo !== null) addParam('mileageTo', query.mileageTo);
-    if (query.volumeFrom !== null) addParam('volumeFrom', query.volumeFrom);
-    if (query.volumeTo !== null) addParam('volumeTo', query.volumeTo);
-    if (query.powerFrom !== null) addParam('powerFrom', query.powerFrom);
-    if (query.powerTo !== null) addParam('powerTo', query.powerTo);
-    if (query.yearFrom !== null) addParam('yearFrom', query.yearFrom);
-    if (query.yearTo !== null) addParam('yearTo', query.yearTo);
-    if (query.priceFrom !== null) addParam('priceFrom', query.priceFrom);
-    if (query.priceTo !== null) addParam('priceTo', query.priceTo);
-    if (query.currency) addParam('currency', query.currency);
-    console.log(params)
+    if (query.drive && query.drive !== 'null') {
+      const entity = Object.entries(DriveType).find(([key, val]) => val === query.drive);
+      addParam('drive_type', entity ? entity[0] : undefined );
+    }
+    if (query.bodyType && query.bodyType !== 'null'){
+      const entity = Object.entries(BodyType).find(([key, val]) => val === query.bodyType);
+      addParam('body_type', entity ? entity[0] : undefined);
+    }
+    if (query.fuelType && query.fuelType !== 'null') {
+      const entity = Object.entries(FuelType).find(([key, val]) => val === query.fuelType);
+      addParam('fuel_type', entity ? entity[0] : undefined);
+    }
+    if (query.transmission && query.transmission !== 'null') {
+      const entity = Object.entries(Transmission).find(([key, val]) => val === query.transmission);
+      addParam('transmission', entity ? entity[0] : undefined);
+    }
+    if (query.mileageFrom !== null) addParam('min_mileage', query.mileageFrom);
+    if (query.mileageTo !== null) addParam('max_mileage', query.mileageTo);
+    if (query.volumeFrom !== null) addParam('min_engine_capacity', query.volumeFrom);
+    if (query.volumeTo !== null) addParam('max_engine_capacity', query.volumeTo);
+    if (query.powerFrom !== null) addParam('min_horse_power', query.powerFrom);
+    if (query.powerTo !== null) addParam('max_horse_power', query.powerTo);
+    if (query.yearFrom !== null) addParam('min_year', query.yearFrom);
+    if (query.yearTo !== null) addParam('max_year', query.yearTo);
+    if (query.priceFrom !== null) addParam('min_price', query.priceFrom);
+    if (query.priceTo !== null) addParam('max_price', query.priceTo);
+    if (query.currency && query.currency !== 'null') addParam('currency', query.currency);
+
     this.http.get<ApiResponse>(
       `http://localhost:8008/ad/`,
       {
         headers: headers,
-        params: params
+        params
       }
     ).subscribe(
       (response) => {
         if (response.success) {
           this.ads = response;
+          this.isEmpty = this.ads.data.list.length === 0;
           this.pages_count = response.pagination.total_pages;
           this.ads!.data.list.forEach(ad => {
             this.loadImage(ad.id);
           });
-          console.log(this.imagePaths)
         } else {
           console.error('Ошибка при получении изображений');
         }
@@ -264,7 +276,6 @@ export class AdvertisementListComponent {
     this.http.get<BrandsApiResponse>(`http://localhost:8008/cars/brands/`, {headers: headers}).subscribe(
       (response) => {
         if (response.success) {
-          console.log(response);
           this.brands = response.data.brands;
 
         } else {
@@ -346,7 +357,6 @@ export class AdvertisementListComponent {
     }
     this.fetchModelsData()
     this.selectedModel = '';
-    console.log(this.models)
   }
 
   onKeyDownBrand(event: KeyboardEvent) {
@@ -422,28 +432,14 @@ export class AdvertisementListComponent {
 
     this.get_ads(1, query);
 
-    console.log(this.selectedBrand); // Output form data
-    console.log(this.selectedModel);
-    console.log(this.selectedDriveType);
-    console.log(this.selectedBodyType);
-    console.log(this.selectedTransmission);
-    console.log(this.selectedFuelType);
-    console.log(this.mileageFrom);
-    console.log(this.mileageTo);
-    console.log(this.volumeFrom)
-    console.log(this.volumeTo);
-    console.log(this.powerFrom);
-    console.log(this.powerTo);
-    console.log(this.yearFrom);
-    console.log(this.yearTo);
-
-    console.log(this.priceFrom);
-    console.log(this.priceTo);
-
-    console.log(this.selectedCurrency);
 
 
   }
 
-  protected readonly Object = Object;
+  formatPrice(price: number): string {
+    // Преобразуем число в строку и разбиваем на тройки с конца
+    return price.toString().replace(/\B(?=(\d{3})+(?!))/g, ' ');
+  }
+
+
 }

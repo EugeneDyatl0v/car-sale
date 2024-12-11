@@ -94,7 +94,6 @@
                 <option value="USD">USD</option>
             <option value="EUR">EUR</option>
             <option value="RUB">RUB</option>
-            <option value="BYN">BYN</option>
       </select>
       </div>
   </div>
@@ -103,13 +102,25 @@
 </div>
 
 
-
-  <div class="grid-container" >
+  <h1 *ngIf="isEmpty" style="font-size: xxx-large; margin: auto">Ничего не было найдено!</h1>
+  <div *ngIf="!isEmpty" class="grid-container" >
     <div *ngFor="let ad of ads!.data.list" class="add">
-      <a href="/advertisement/{{ad.id}}">{{ ad.title }}</a>
-      <img [src]="imagePaths[ad.id]" alt="main-photo" width="240" height="240">
-      <h3> Цена: {{ ad.price }} {{ ad.currency }}</h3>
-      <h3> Год: {{ ad.year }}</h3>
+      <a href="/advertisement/{{ad.id}}" class="link">{{ ad.title }}</a>
+      <div class="image-container">
+        <img [src]="imagePaths[ad.id]" alt="main-photo" class="add-image">
+    </div>
+      <div class="info">
+        <table>
+          <tr>
+            <td><h3>Цена:</h3></td>
+            <td><h3>{{formatPrice( ad.price) }} {{ ad.currency }}</h3></td>
+          </tr>
+          <tr>
+            <td style="text-align: right"><h3>Год:</h3></td>
+            <td><h3>{{ ad.year }}</h3></td>
+          </tr>
+        </table>
+        </div>
     </div>
   </div>
 

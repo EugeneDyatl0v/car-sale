@@ -32,12 +32,7 @@ export class DraggableYearSelectorComponent {
     // Определяем направление свайпа
     const direction = event.movementY < 0 ? 'up' : 'down';
     this.tempYear = direction === 'up' ? this.tempYear + 0.1 : this.tempYear - 0.1;
-    console.log(this.tempYear);
-    //if (Number.isInteger(this.tempYear)) {
-    //  this.currentYear = this.tempYear; // Обновляем текущий год
-    //}
-    //this.tempYear = Math.round(this.tempYear);
-    //console.log(this.tempYear);
+
     if (Math.floor(this.tempYear) > this.minYear && Math.floor(this.tempYear) < this.maxYear){
       this.currentYear = Math.floor(this.tempYear);
       this.prevYear = this.currentYear - 1;

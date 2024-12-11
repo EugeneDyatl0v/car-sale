@@ -15,8 +15,7 @@ enum FuelType {
     PETROL = "Бензин",
     DIESEL = "Дизель",
     ELECTRIC = "Электричество",
-    HYBRID = "Гибрид",
-    GAS = "Газ"
+    HYBRID = "Гибрид"
 }
 
 enum Transmission {
@@ -30,8 +29,7 @@ enum BodyType {
     SUV = "Внедорожник",
     HATCHBACK = "Хетчбэк",
     WAGON = "Универсал",
-    COUPE = "Купе",
-    MINIVAN = "Минивэн"
+    COUPE = "Купе"
 }
 
 enum DriveType {
@@ -248,7 +246,6 @@ export class AdvertisementCreateComponent implements OnInit{
 
       const formValue = this.adForm.value;
 
-      console.log(formValue);
 
       const requestBody: APIResponse = {
         title: formValue.title,
@@ -273,7 +270,7 @@ export class AdvertisementCreateComponent implements OnInit{
         location: formValue.location,
         images: this.selectedPhotos
       };
-      console.log(requestBody);
+
       const authToken = localStorage.getItem('authToken');
 
       const headers = new HttpHeaders({
