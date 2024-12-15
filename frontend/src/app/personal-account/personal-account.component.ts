@@ -78,6 +78,19 @@ interface ApiResponse {
   }
 }
 
+interface UpdApiResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: {
+      user_name: string;
+      user_last_name: string;
+      email: string;
+      phone_number: string;
+    }
+  }
+}
+
 interface RecentlyViewedApiResponse {
   success: boolean;
   message: string;
@@ -121,8 +134,38 @@ export class PersonalAccountComponent implements OnInit{
 
   save(){
     this.edit = false;
-    //логика сохранения userName, userLastName, email, phoneNumber
-    console.log(this.phoneNumber);
+    const authToken = localStorage.getItem('authToken');
+
+    if (!authToken)
+    {
+      this.router.navigate(['/'])
+    }
+
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    );
+    const data = {
+      user_name: this.userName,
+      user_last_name: this.userLastName,
+      email: this.email,
+      phone_number: this.phoneNumber
+    }
+    this.http.put<UpdApiResponse>('http://localhost:8008/users/', data, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          console.info('Данные пользователя обновлены')
+        } else {
+          console.error('Ошибка при получении данных пользователя');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
   }
 
   on_edit(){

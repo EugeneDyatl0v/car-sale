@@ -166,9 +166,11 @@ export class AdvertisementListComponent {
   }
 
   get_ads(page: number, query:QueryParams) {
+    const authToken = localStorage.getItem('authToken');
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
       }
     );
 

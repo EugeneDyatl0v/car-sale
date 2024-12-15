@@ -111,11 +111,14 @@ export class AdvertisementsComponent {
   }
 
   get_liked_ads() {
+    const authToken = localStorage.getItem('authToken');
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
       }
     );
+
 
 
     this.http.get<ApiResponse>(
@@ -202,11 +205,14 @@ export class AdvertisementsComponent {
   }
 
   get_personal_ads() {
+    const authToken = localStorage.getItem('authToken');
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
       }
     );
+
 
 
     this.http.get<ApiResponse>(
