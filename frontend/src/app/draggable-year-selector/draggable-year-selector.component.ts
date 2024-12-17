@@ -1,4 +1,4 @@
-import { Component, HostListener, EventEmitter, Output } from '@angular/core';
+import {Component, HostListener, EventEmitter, Output, Input, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'app-draggable-year-selector',
@@ -7,14 +7,50 @@ import { Component, HostListener, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./draggable-year-selector.component.css']
 })
 export class DraggableYearSelectorComponent {
+  @Input() currentYear: number = 0;
   @Output() dataEmitter: EventEmitter<number> = new EventEmitter<number>();
   maxYear: number = new Date().getFullYear();
   minYear: number = 1940;
-  currentYear: number = 2000;
-  prevYear: number | null = 1999;
-  nextYear: number | null = 2001;
+  //currentYear: number = 2000;
+  prevYear: number | null = this.currentYear - 1;
+  nextYear: number | null = this.currentYear + 1;
   tempYear: number = this.currentYear; // Временное значение года
   swapping: boolean = false; // Флаг для отслеживания состояния перетаскивания
+
+  ngOnInit(){
+    console.log(this.currentYear)
+    this.check();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['currentYear']) {
+      this.check(); // Вызываем check() при изменении currentYear
+    }
+  }
+
+  check(){
+    if (this.currentYear === 0){
+      this.currentYear = 2000;
+      this.prevYear = this.currentYear - 1;
+      this.nextYear = this.currentYear + 1;
+    }
+
+    if (this.currentYear + 1 != this.maxYear) {
+      this.prevYear = this.currentYear - 1;
+      this.nextYear = this.currentYear + 1;
+    } else {
+      this.prevYear = this.currentYear - 1;
+      this.nextYear = null;
+    }
+
+    if (this.currentYear - 1 > this.minYear ) {
+      this.prevYear = this.currentYear - 1;
+      this.nextYear = this.currentYear + 1;
+    } else {
+      this.nextYear = this.currentYear + 1;
+      this.prevYear = null;
+    }
+  }
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {

@@ -19,6 +19,7 @@ import {
 } from "./advertisement-create/advertisement-create.component";
 import {RecommendationPageComponent} from "./recommendation-page/recommendation-page.component";
 import {AdvertisementsComponent} from "./advertisements/advertisements.component";
+import {MocsImaesComponent} from "./mocs-imaes/mocs-imaes.component";
 
 
 export const routes: Routes = [
@@ -33,5 +34,6 @@ export const routes: Routes = [
   { path: 'advertisement/:id', component:AdvertisementComponent },
   { path: 'advertisement-list', component:AdvertisementListComponent},
   { path: 'recommendation-page', component:RecommendationPageComponent},
-  { path: 'advertisements/:path', component:AdvertisementsComponent}
+  { path: 'advertisements/:path', component:AdvertisementsComponent},
+  { path: 'test', component:MocsImaesComponent}
 ];

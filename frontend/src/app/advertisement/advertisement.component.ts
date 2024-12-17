@@ -142,10 +142,10 @@ export class AdvertisementComponent{
   check_like_status(){
     const authToken = localStorage.getItem('authToken');
 
-        if (!authToken)
-        {
-          this.router.navigate(['/authorize'])
-        }
+    if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
 
 
         const headers = new HttpHeaders(
@@ -184,7 +184,7 @@ export class AdvertisementComponent{
 
     if (!authToken)
     {
-      this.router.navigate(['/authorize'])
+      this.router.navigate(['/authorization'])
     }
 
 
@@ -324,6 +324,10 @@ export class AdvertisementComponent{
 
   check_ad(){
     const authToken = localStorage.getItem('authToken');
+        if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
       let payload = this.decodeJWT(authToken!);
       return payload.payload.user_info.email === this.myAdData.seller_email;
   }
@@ -348,6 +352,10 @@ export class AdvertisementComponent{
 
   on_click_delete(){
     const authToken = localStorage.getItem('authToken');
+        if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
 
     const headers = new HttpHeaders(
       {
@@ -378,6 +386,10 @@ export class AdvertisementComponent{
     this.isDislikeActive = false;
 
     const authToken = localStorage.getItem('authToken');
+        if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
 
     const headers = new HttpHeaders(
       {
@@ -409,6 +421,11 @@ export class AdvertisementComponent{
     this.isLikeActive = false;
 
     const authToken = localStorage.getItem('authToken');
+
+        if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
 
     const headers = new HttpHeaders(
       {

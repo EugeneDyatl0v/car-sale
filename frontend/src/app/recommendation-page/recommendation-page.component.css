@@ -95,6 +95,13 @@ body {
   filter: brightness(0.7);
 }
 
+.car-button.selected:hover {
+  background-color: white; /* Цвет фона при выборе */
+  color: gray; /* Цвет текста при выборе */
+  border-color: black; /* Цвет границы при выборе */
+  filter: brightness(0.7);
+}
+
         .container {
             display: flex;
             overflow: hidden; /* Скрываем переполнение */
@@ -107,6 +114,50 @@ body {
             padding: 20px; /* Отступы внутри */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            /*justify-content: center;*/
             align-items: center; /* Центрируем содержимое */
         }
+
+
+.delete-button, .add-button{
+  margin-top: 3vh;
+  border: 1px solid white;
+  border-radius: 25px;
+  width: 2.5vw;
+  height: 5vh;
+  background-size: 50%, auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+  background-image: url("../../assets/trash.svg");
+  }
+
+.add-button{
+  background-image: url("../../assets/plus-square-fill.svg");
+}
+
+.delete-button:hover, .add-button:hover{
+  background-image: url("../../assets/trash.svg");
+    background-size: 50%, auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
+.add-button:hover{
+  background-image: url("../../assets/plus-square-fill.svg");
+}
+
+.error{
+    width: 61%;
+    height: 10vh;
+    background-color: red;
+    text-align: center;
+    align-content: center;
+    border-radius: 25px;
+    margin: 3vh auto;
+}
+
+
+

@@ -41,6 +41,17 @@ interface RecommendationList {
   drive_type: string[];
 }
 
+interface RecommendationListGet {
+  brand: string[];
+  year_from: number;
+  year_to: number;
+  fuel_type: string[];
+  transmission: string[];
+  body_type: string[];
+  drive_type: string[];
+  id: string;
+}
+
 interface BrandsApiResponse {
   success: boolean;
   message: string;
@@ -56,6 +67,15 @@ interface RecommendationCreateResponse {
     recommendation: {};
   };
 }
+
+interface RecommendationResponse {
+  success: boolean;
+  message: string;
+  data: {
+    recommendation: RecommendationListGet;
+  };
+}
+
 
 
 @Component({
@@ -88,6 +108,16 @@ export class RecommendationPageComponent implements OnInit{
   drives: string[] = Object.values(DriveType);
   fuelTypes: string[] = Object.values(FuelType);
   error: boolean = false;
+  recom: RecommendationListGet = {
+    brand: [],
+    year_from: 0,
+    year_to: 0,
+    fuel_type: [],
+    transmission: [],
+    body_type: [],
+    drive_type: [],
+    id: ''
+  };
 
   authToken: string | null = '';
 
@@ -95,6 +125,7 @@ export class RecommendationPageComponent implements OnInit{
   }
 
   ngOnInit(){
+    console.log(this.transmissions)
     this.authToken = localStorage.getItem('authToken');
 
     if (!this.authToken)
@@ -103,6 +134,49 @@ export class RecommendationPageComponent implements OnInit{
     }
 
     this.fetchBrandsData();
+    this.getRecommendation();
+  }
+
+  getRecommendation(){
+  const authToken = localStorage.getItem('authToken');
+    if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
+
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    );
+
+    this.http.get<RecommendationResponse>(`http://localhost:8008/recommendation/`, {headers: headers}).subscribe(
+      (response) => {
+        if (response.success) {
+          this.recom = response.data.recommendation;
+          this.selections();
+        } else {
+          console.error('Ошибка при получении данных пользователя');
+        }
+      },
+      (error) => {
+        console.error('Ошибка HTTP-запроса:', error);
+      }
+    );
+  }
+
+  selections(){
+    console.log(this.recom)
+    this.selectedBrands = this.recom["brand"]
+    this.selectedTransmisson = this.recom["transmission"].map(key => Transmission[key as keyof typeof Transmission]);
+    this.selectedYearTo = this.recom["year_to"]
+    this.checkMax = this.selectedYearTo !== 0;
+    this.selectedYearFrom = this.recom["year_from"]
+    this.checkMin = this.selectedYearFrom !== 0;
+    this.selectedFuelType = this.recom["fuel_type"].map(key => FuelType[key as keyof typeof FuelType]);
+    this.selectedBodyType = this.recom["body_type"].map(key => BodyType[key as keyof typeof BodyType]);
+    this.selectedDriveType = this.recom["drive_type"].map(key => DriveType[key as keyof typeof DriveType]);
   }
 
   fetchBrandsData(){
@@ -146,10 +220,13 @@ export class RecommendationPageComponent implements OnInit{
   }
 
   save(){
-    if (this.selectedYearFrom > this.selectedYearTo){
+    if (this.selectedYearFrom > this.selectedYearTo && this.checkMax && this.checkMin){
       this.error = true;
     } else {
+      console.log('1')
       this.error = false
+
+      console.log('2')
       this.updateFilters();
       console.log('ok');
       this.router.navigate(['/'])
@@ -179,7 +256,22 @@ export class RecommendationPageComponent implements OnInit{
     //TODO: add back save recommendation
     //const entity = Object.entries(Transmission).find(([key, val]) => val === query.transmission);
     //  addParam('transmission', entity ? entity[0] : undefined);
-    this.data = {
+    console.log("21")
+    console.log(this.selectedBrands)
+    console.log(this.selectedYearFrom)
+    console.log(this.selectedYearTo)
+    console.log(this.selectedFuelType)
+    console.log(this.selectedTransmisson)
+    console.log(this.selectedBodyType)
+    console.log(this.selectedDriveType)
+    if (!this.checkMax){
+      this.selectedYearTo = 0
+    }
+
+    if (!this.checkMin){
+      this.selectedYearFrom = 0
+    }
+     this.data = {
       brand: this.selectedBrands,
       year_from: this.selectedYearFrom,
       year_to: this.selectedYearTo,
@@ -188,6 +280,7 @@ export class RecommendationPageComponent implements OnInit{
       body_type: this.selectedBodyType.map(el => this.change_data(el, BodyType)),
       drive_type: this.selectedDriveType.map(el => this.change_data(el, DriveType))
     };
+    console.log("22")
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
@@ -229,11 +322,15 @@ export class RecommendationPageComponent implements OnInit{
   }
 
   onTransmissionChange(car: string) {
+    console.log(car)
     let index = this.selectedTransmisson.findIndex(selectedCar => selectedCar === car);
     if (index === -1) {
       this.selectedTransmisson.push(car);
+      console.log('add')
+      console.log(this.selectedTransmisson)
     } else {
       this.selectedTransmisson.splice(index, 1);
+      console.log('delete')
     }
   }
 
@@ -257,12 +354,39 @@ export class RecommendationPageComponent implements OnInit{
 
 
   handleMinimalYear(data: number) {
-    this.selectedYearFrom = data; // Сохраняем данные из первого компонента
+    //if (!this.checkMin) {
+      this.selectedYearFrom = data;
+    //} else {
+    //  this.checkMin = !this.checkMin
+    //}// Сохраняем данные из первого компонента
     console.log(`Первый компонент отправил: ${data}`); // Логируем данные
   }
 
   handleMaximumYear(data: number) {
     this.selectedYearTo = data; // Сохраняем данные из второго компонента
     console.log(`Второй компонент отправил: ${data}`); // Логируем данные
+  }
+
+  checkMin: boolean = false;
+  checkMax: boolean = false;
+
+  on_click_delete_min(){
+      this.checkMin = false;
+      this.selectedYearFrom = 0;
+  }
+
+  on_click_add_min(){
+    this.checkMin = true;
+    this.selectedYearFrom = 2000;
+  }
+
+  on_click_delete_max(){
+    this.checkMax = false;
+    this.selectedYearTo = 0;
+  }
+
+  on_click_add_max(){
+    this.checkMax = true;
+    this.selectedYearTo = 2000;
   }
 }

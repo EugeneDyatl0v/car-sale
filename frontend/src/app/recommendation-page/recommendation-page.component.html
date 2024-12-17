@@ -73,17 +73,21 @@
 <div class="container">
     <div class="left">
         <h5>Выберите минимальный год выпуска</h5>
-        <app-draggable-year-selector (dataEmitter)="handleMinimalYear($event)">
+        <button class="add-button" *ngIf="!checkMin" (click)="on_click_add_min()">+</button>
+        <button class="delete-button" *ngIf="checkMin" (click)="on_click_delete_min()"></button>
+        <app-draggable-year-selector *ngIf="checkMin" [currentYear]="selectedYearFrom" (dataEmitter)="handleMinimalYear($event)">
         </app-draggable-year-selector>
     </div>
     <div class="right">
         <h5>Выберите максимальный год выпуска</h5>
-      <app-draggable-year-selector (dataEmitter)="handleMaximumYear($event)">
+        <button class="add-button" *ngIf="!checkMax" (click)="on_click_add_max()">+</button>
+        <button class="delete-button" *ngIf="checkMax" (click)="on_click_delete_max()"></button>
+      <app-draggable-year-selector *ngIf="checkMax" [currentYear]="selectedYearTo" (dataEmitter)="handleMaximumYear($event)">
       </app-draggable-year-selector>
     </div>
 </div>
   </div>
-      <h2 *ngIf="error">Минимальный год выпуска не должен превышать максимальный год выпуска</h2>
+      <h2 *ngIf="error" class="error">Минимальный год выпуска не должен превышать максимальный год выпуска</h2>
       <div class="buttons">
         <button *ngIf="currentPageIndex !== 0" class="ads-btn" (click)="prevPage()" >Назад</button>
         <button *ngIf="currentPageIndex !== pages.length - 1" class="ads-btn" (click)="nextPage()" >Далее</button>

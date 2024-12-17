@@ -121,7 +121,9 @@ export class PersonalAccountComponent implements OnInit{
   address: string = ''
   edit:boolean = false;
   ads: AdApiResponse | null = null;
-  recently_viewed_ads: RecentlyViewedApiResponse | null = null;
+  recently_viewed_ads: RecentlyViewedApiResponse = {
+  success: true,  message: 'string',
+  data: []};
   imagePaths: { [key: string]: string } = {};
 
   constructor(private http: HttpClient,  private router: Router, private authService: AuthService) {}
@@ -138,7 +140,7 @@ export class PersonalAccountComponent implements OnInit{
 
     if (!authToken)
     {
-      this.router.navigate(['/'])
+      this.router.navigate(['/authorization'])
     }
 
 
@@ -184,7 +186,7 @@ export class PersonalAccountComponent implements OnInit{
 
     if (!authToken)
     {
-      this.router.navigate(['/'])
+      this.router.navigate(['/authorization'])
     }
 
 
@@ -252,6 +254,11 @@ export class PersonalAccountComponent implements OnInit{
 
   get_recently_viewed_ads() {
     const authToken = localStorage.getItem('authToken');
+
+    if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
 
     const headers = new HttpHeaders(
       {

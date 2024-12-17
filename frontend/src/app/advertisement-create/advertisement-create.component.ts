@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import { v4 as uuidv4 } from 'uuid';
@@ -106,6 +106,30 @@ interface FileData {
   extension: string;
 }
 
+enum Columns{
+  title = "Заголовок объявления",
+  description = "Описание",
+  price = "Цена",
+  brand = "Марка",
+  model = "Модель",
+  year = "Год выпуска",
+  mileage = "Пробег",
+  fuel_type = "Тип топлива",
+  transmission = "КПП",
+  body_type = "Тип кузова",
+  engine_capacity = "Объем двигателя",
+  horse_power = "Мощность",
+  drive_type = "Привод",
+  color = "Цвет",
+  vin_number = "VIN номер",
+  seller_name = "Ваше имя",
+  phone = "Телефон",
+  location = "Город"
+}
+enum Error {
+  "Value error, VIN number must match the required format." = "Неверно введенный VIN номер. Разрешенные символы: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H J K L M N P R S T U V W X Y Z. Количество символов: 17",
+  "String should have at least 17 characters" = "Неверно введенный VIN номер. Разрешенные символы: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H J K L M N P R S T U V W X Y Z. Количество символов: 17",
+}
 
 @Component({
   selector: 'app-advertisement-create',
@@ -114,7 +138,8 @@ interface FileData {
     ReactiveFormsModule,
     NgForOf,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgIf
   ],
   templateUrl: './advertisement-create.component.html',
   styleUrl: './advertisement-create.component.css'
@@ -126,6 +151,8 @@ export class AdvertisementCreateComponent implements OnInit{
   models: string[] = [];
   files: FileData[] = [];
   email: string = '';
+  error_text: string = '';
+  check_error: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -135,16 +162,16 @@ export class AdvertisementCreateComponent implements OnInit{
   ) {
       this.adForm = this.fb.group({
         title: ['', Validators.required],
-        price: ['', Validators.required],
+        price: ['', [Validators.required, Validators.min(0)]],
         currency: ['USD', Validators.required],
         body_type: ['', Validators.required],
         brand: ['', Validators.required],
         model: [{ value: '', disabled: true }, Validators.required],
         color: ['', Validators.required],
-        year: ['', [Validators.required, Validators.min(1886), Validators.max(new Date().getFullYear())]],
-        mileage: ['', Validators.required],
-        horse_power: ['', Validators.required],
-        engine_capacity: ['', Validators.required],
+        year: ['', [Validators.required, Validators.min(1940), Validators.max(new Date().getFullYear())]],
+        mileage: ['', [Validators.required, Validators.min(0)]],
+        horse_power: ['', [Validators.required, Validators.min(1)]],
+        engine_capacity: ['', [Validators.required, Validators.min(0.1), Validators.max(10.0)], Validators.pattern(/^-?\d+(\.\d{1}|,\d{1})?$/)],
         transmission: ['', Validators.required],
         drive_type: ['', Validators.required],
         fuel_type: ['', Validators.required],
@@ -152,7 +179,7 @@ export class AdvertisementCreateComponent implements OnInit{
         location: ['', Validators.required],
         description: ['', Validators.required],
         seller_name: ['', Validators.required],
-        phone: ['', [Validators.required, Validators.pattern(/^\+?\d{10,15}$/)]],
+        phone: ['', [Validators.required, Validators.pattern(/^(\+?\s?375\s?(25|29|33|44)|80\s?(25|29|33|44))\s?(\d\s?){7}$/)]],
         email: ['', [Validators.required, Validators.email]]
       });
   }
@@ -166,7 +193,7 @@ export class AdvertisementCreateComponent implements OnInit{
     const authToken = localStorage.getItem('authToken');
     if (!authToken)
     {
-      this.router.navigate(['/'])
+      this.router.navigate(['/authorization'])
     }
 
 
@@ -241,13 +268,68 @@ export class AdvertisementCreateComponent implements OnInit{
   }
 
   onSubmit() {
+    console.log(this.adForm)
       if (this.adForm.invalid) {
         console.error('Форма не валидна');
+        this.error_text = '';
+  Object.keys(this.adForm.controls).forEach(key => {
+    const control = this.adForm.get(key);
+    if (control?.invalid) { // Проверка на null с помощью ?
+      if (key === 'phone' || key === 'year' || key === 'horse_power' || key === 'engine_capacity' || key === 'mileage' || key === 'price'){
+        this.error_text = this.error_text + ` ${Columns[key as keyof typeof Columns]} не заполнено или заполнено неверно.\n`;
+      } else {
+      this.error_text = this.error_text + ` ${Columns[key as keyof typeof Columns]} не заполнено.\n`;
+      }
+    }
+  });
+      this.check_error = true;
+    console.log(this.error_text)
         return;
+      } else {
+        this.check_error = false;
       }
 
       const formValue = this.adForm.value;
 
+      if (this.selectedPhotos.length === 0){
+        this.error_text = 'Фотографии не загружены';
+        this.check_error = true;
+        return;
+      } else {
+        this.check_error = false;
+      }
+
+      if (formValue.title.split('').every((char: string) => char >= '0' && char <= '9')){
+        this.error_text = 'Заголовок объявления введен некорректно';
+        this.check_error = true;
+        return;
+      } else {
+        this.check_error = false;
+      }
+
+      if (formValue.color.split('').every((char: string) => char >= '0' && char <= '9')){
+        this.error_text = 'Цвет введен некорректно';
+        this.check_error = true;
+        return;
+      } else {
+        this.check_error = false;
+      }
+
+      if (formValue.seller_name.split('').every((char: string) => char >= '0' && char <= '9')){
+        this.error_text = 'Имя введено некорректно';
+        this.check_error = true;
+        return;
+      } else {
+        this.check_error = false;
+      }
+
+      if (formValue.location.split('').some((char: string) => char >= '0' && char <= '9')){
+        this.error_text = 'Город введен некорректно';
+        this.check_error = true;
+        return;
+      } else {
+        this.check_error = false;
+      }
 
       const requestBody: APIResponse = {
         title: formValue.title,
@@ -275,6 +357,11 @@ export class AdvertisementCreateComponent implements OnInit{
 
       const authToken = localStorage.getItem('authToken');
 
+      if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
+
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
@@ -282,6 +369,7 @@ export class AdvertisementCreateComponent implements OnInit{
 
        this.http.post<AdCreateResponse>('http://localhost:8008/ad/create', requestBody, { headers: headers }).subscribe(
           (response) => {
+            this.check_error = false;
             const adData = response.data.ad_id
             console.log('Объявление успешно создано:', response);
             this.uploadFiles(adData);
@@ -289,6 +377,14 @@ export class AdvertisementCreateComponent implements OnInit{
           },
           (error) => {
             console.error('Ошибка при создании объявления:', error);
+            let errors = error.error.detail;
+            this.error_text = '';
+            Object.keys(errors).forEach(key => {
+              const errorMessage = errors[key].message;
+              this.error_text += ` ${Error[errorMessage as keyof typeof Error]}\n`;
+            });
+            this.check_error = true;
+            return;
           }
         );
   }

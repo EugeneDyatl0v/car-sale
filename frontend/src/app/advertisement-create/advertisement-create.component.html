@@ -149,7 +149,7 @@
         <input type="email" id="email" formControlName="email" required readonly>
       </div>
     </div>
-
+    <h2 *ngIf="check_error" class="error">{{error_text}}</h2>
     <button type="submit" class="submit-button">Разместить объявление</button>
   </form>
 </div>

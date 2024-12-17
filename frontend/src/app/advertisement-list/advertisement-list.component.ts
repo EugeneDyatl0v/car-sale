@@ -167,6 +167,10 @@ export class AdvertisementListComponent {
 
   get_ads(page: number, query:QueryParams) {
     const authToken = localStorage.getItem('authToken');
+    if (!authToken)
+    {
+      this.router.navigate(['/authorization'])
+    }
     const headers = new HttpHeaders(
       {
         'Content-Type': 'application/json',
@@ -227,8 +231,10 @@ export class AdvertisementListComponent {
       (response) => {
         if (response.success) {
           this.ads = response;
+          console.log(this.ads)
           this.isEmpty = this.ads.data.list.length === 0;
           this.pages_count = response.pagination.total_pages;
+          console.log(this.pages_count)
           this.ads!.data.list.forEach(ad => {
             this.loadImage(ad.id);
           });

@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page" >
 <h1 *ngIf="isEmpty" style="font-size: xxx-large; margin: auto">Ничего не было найдено!</h1>
 <h1 *ngIf="!isEmpty && pageType === 'liked'" style="font-size: xxx-large; margin-top: 5vh">Понравившиеся объявления</h1>
 <h1 *ngIf="!isEmpty && pageType === 'personal'" style="font-size: xxx-large; margin-top: 5vh">Ваши объявления</h1>
@@ -21,5 +21,21 @@
         </table>
         </div>
     </div>
+  </div>
+  <div *ngIf="!isEmpty" class="pagination">
+    <button  (click)="setPage(current_page - 1)" [disabled]="current_page === 1">« Пред</button>
+    <!--
+      <span *ngFor="let page of [].constructor(pages_count); let i = index">
+        <button  (click)="setPage(i + 1)" [class.active]="current_page === i + 1">{{ i + 1 }}</button>
+      </span>
+    --->
+
+        <button *ngIf="current_page != 1 && current_page != 2" (click)="setPage(current_page - 2)" >{{ current_page - 2 }}</button>
+        <button *ngIf="current_page !== 1 " (click)="setPage(current_page - 1)"  >{{ current_page - 1 }}</button>
+        <button  (click)="setPage(current_page)" [class.active]="current_page ===  current_page">{{ current_page }}</button>
+        <button  *ngIf="current_page !== pages_count" (click)="setPage(current_page + 1)" >{{current_page + 1}}</button>
+        <button  *ngIf="current_page !== pages_count && current_page !== pages_count - 1" (click)="setPage(current_page + 2)" >{{ current_page + 2 }}</button>
+
+    <button  (click)="setPage(current_page + 1)" [disabled]="current_page === pages_count">След »</button>
   </div>
 </div>

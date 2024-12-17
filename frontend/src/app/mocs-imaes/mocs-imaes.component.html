@@ -1,0 +1,12 @@
+
+      <div class="form-group">
+        <label>Фотографии</label>
+        <div class="photo-upload">
+          <input type="file" multiple accept="image/*" (change)="onFileSelect($event)" required>
+<!--          <div class="preview-photos">-->
+<!--            <img *ngFor="let photo of selectedPhotos" [src]="'../../assets/ad_images/' + photo" class="preview-photo">-->
+<!--          </div>-->
+        </div>
+        <input type="text" [(ngModel)]="id">
+        <button (click)="on_Submit()" style="width: 200px; height: 200px"></button>
+      </div>
